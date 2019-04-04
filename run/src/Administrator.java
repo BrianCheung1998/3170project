@@ -63,7 +63,7 @@ public class Administrator{
         "FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID)"+")"
         ;
 
-        sql_marked = "CREATE TABLE IF NOT EXISTS marked("+
+        sql_marked = "CREATE TABLE IF NOT EXISTS Marked("+
         "Position_ID char(6) NOT NULL,"+
         "Employee_ID char(6) NOT NULL,"+
         "Status boolean NOT NULL,"+
