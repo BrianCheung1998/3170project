@@ -63,7 +63,7 @@ public class Administrator{
         "FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID)"+")"
         ;
 
-        sql_marked = "CREATE TABLE IF NOT EXISTS Marked("+
+        sql_marked = "CREATE TABLE IF NOT EXISTS marked("+
         "Position_ID char(6) NOT NULL,"+
         "Employee_ID char(6) NOT NULL,"+
         "Status boolean NOT NULL,"+
@@ -92,7 +92,7 @@ public class Administrator{
         sql_employee = "DROP TABLE IF EXISTS Employee";
         sql_company  = "DROP TABLE IF EXISTS Company";
         sql_employer = "DROP TABLE IF EXISTS Employer";
-        sql_position = "DROP TABLE IF EXISTS Position";
+        sql_position = "DROP TABLE IF EXISTS Position_Table";
         sql_employmentHistory = "DROP TABLE IF EXISTS Employment_History";
         sql_marked = "DROP TABLE IF EXISTS marked";
 
@@ -129,7 +129,7 @@ public class Administrator{
         "(Employer_ID, Name, Company)";
 
         sql_position = "load data local infile './"+folderPath+"/position.csv' "+
-        "into table Position"+
+        "into table Position_Table"+
         "fields terminated by ',' lines terminated by '\\n'"+
         "(Position_ID, Position_Title, Salary, Experience, Status, Employer_ID)";
 
@@ -157,7 +157,7 @@ public class Administrator{
       sql_employee = "SELECT COUNT(*) FROM Employee";
       sql_company  = "SELECT COUNT(*) FROM Company";
       sql_employer = "SELECT COUNT(*) FROM Employer";
-      sql_position = "SELECT COUNT(*) FROM Position";
+      sql_position = "SELECT COUNT(*) FROM Position_Table";
       sql_employmentHistory = "SELECT COUNT(*) FROM Employment_History";
       sql_marked = "SELECT COUNT(*) FROM marked";
 
