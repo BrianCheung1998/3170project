@@ -27,7 +27,7 @@ public class UI{
     //Constructor
     static int currentState;
     Scanner kb;
-    Administrator admin_do;
+    Administrator admin_do = new Administrator();
     Employee employee_do;
     Employer employer_do;
     public UI(){
@@ -111,7 +111,7 @@ public class UI{
                                 swap_to(S_identity);
                                 break;
                             }
-                            
+
                         } catch (Exception e) {
 
                         }
@@ -147,14 +147,14 @@ public class UI{
                                 swap_to(S_identity);
                                 break;
                             }
-                            
+
                         } catch (Exception e) {
 
                         }
                         System.out.println ("[ERROR] Invlid input");
                     } while(true);
                 break;
-                    
+
                 case S_employer:
                     System.out.println("Empolyer, What would you like to do?");
                     System.out.println("1. Post Position Recruitment");
@@ -182,7 +182,7 @@ public class UI{
                                 swap_to(S_identity);
                                 break;
                             }
-                            
+
                         } catch (Exception e) {
 
                         }
@@ -201,7 +201,7 @@ public class UI{
                     System.out.println("Processing...Done! Tables are deleted!");
                     swap_to(S_admin);
                 break;
-                
+
                 case S_admin_loadData:
                     System.out.println("Please enter the folder path.");
                     String folderPath = kb.nextLine(); //Enter the folder path
@@ -211,22 +211,22 @@ public class UI{
 
                     swap_to(S_admin);
                 break;
-            
+
                 case S_admin_checkData:
                     System.out.println("Number of records in each table:");
                     admin_do.check_data();
                     swap_to(S_admin);
                 break;
-            
+
                 case S_employee_showAvailblePosition:
-                    /* 
+                    /*
                     A position is available to an employee if the following criteria hold:
                      1. the Status of the position is True(valid);
                      2. the employee is qualified for the position(i.e. the title of the position is included in the skills of the employee);
                      3. the Salary of the position is not less than the Expected_Salary of the employee;
                      4. the Experience of the employee is not less than the required Experience of the position.
-                    */ 
-                    
+                    */
+
                     System.out.println("Please enter your ID.");
                     String Employee_ID = kb.nextLine();
                     System.out.println("Your available positions are:");
@@ -236,7 +236,7 @@ public class UI{
 
                     swap_to(S_admin);
                 break;
-                
+
                 case S_employee_markInterestPosition:
                     /*
                     An employee may be interested in a position if:
@@ -265,7 +265,7 @@ public class UI{
                 case S_employer_postRecruitment:
                     System.out.println("Please enter your ID.");
                     String Employer_ID = kb.nextLine();
-                    
+
                     System.out.println("Please enter the position title.");
                     String Position_Title = kb.nextLine();
 
@@ -287,7 +287,7 @@ public class UI{
                      2. meet all the criteria: for criterion 1, the employee's Skills should contain
                         the position title; for criterion 2, the employee's Expected_Salary should not
                         larger than the upper bound of salary; for criterion 3, the employee's Experience
-                        should not less than the input experience (no input means experience=0) 
+                        should not less than the input experience (no input means experience=0)
                     */
                     int __num__ = 0;
                     System.out.printf("%d potential empolyees are found. The position recruitment is posted.\n",__num__);

@@ -12,11 +12,11 @@ public class ConnectToMySQL{
 
 
     public ConnectToMySQL() {
-        String dbAddress = "jdbc:mysql://projgw.cse.cuhk.edu.hk:2633/db0";
+        String dbAddress = "jdbc:mysql://projgw.cse.cuhk.edu.hk:2633/db26";
         String dbUsername = "Group26";
         String dbPassword = "group26";
 
-        
+
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(dbAddress,dbUsername,dbPassword);
@@ -29,4 +29,3 @@ public class ConnectToMySQL{
         }
     }
 }
-

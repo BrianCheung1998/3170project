@@ -96,7 +96,7 @@ public class Administrator{
         sql_position = "DROP TABLE IF EXISTS Position";
         sql_employmentHistory = "DROP TABLE IF EXISTS Employment_History";
         sql_marked = "DROP TABLE IF EXISTS marked";
-        
+
         try{
             DataBase.sta = DataBase.con.createStatement();
             DataBase.sta.executeUpdate(sql_employee);
@@ -155,7 +155,47 @@ public class Administrator{
     }
 
     public void check_data(){
-        /* TODO */
+      sql_employee = "SELECT COUNT(*) FROM Employee";
+      sql_company  = "SELECT COUNT(*) FROM Company";
+      sql_employer = "SELECT COUNT(*) FROM Employer";
+      sql_position = "SELECT COUNT(*) FROM Position";
+      sql_employmentHistory = "SELECT COUNT(*) FROM Employment_History";
+      sql_marked = "SELECT COUNT(*) FROM marked";
+
+      try{
+          DataBase.sta = DataBase.con.createStatement();
+avavavava
+          DataBase.rSet = DataBase.sta.executeUpdate(sql_employee);
+          int count1 = DataBase.rSet.getInt("count1");
+          system.out.println("Table 1: %d",count1);
+
+          DataBase.rSet = DataBase.sta.executeUpdate(sql_company);
+          count1 = DataBase.rSet.getInt("count1");
+          system.out.println("Table 2: %d",count1);
+
+          DataBase.rSet = DataBase.sta.executeUpdate(sql_employer);
+          count1 = DataBase.rSet.getInt("count1");
+          system.out.println("Table 3: %d",count1);
+
+          DataBase.rSet = DataBase.sta.executeUpdate(sql_position);
+          count1 = DataBase.rSet.getInt("count1");
+          system.out.println("Table 4: %d",count1);
+
+          DataBase.rSet = DataBase.sta.executeUpdate(sql_employmentHistory);
+          count1 = DataBase.rSet.getInt("count1");
+          system.out.println("Table 5: %d",count1);
+
+          DataBase.rSet = DataBase.sta.executeUpdate(sql_marked);
+          count1 = DataBase.rSet.getInt("count1");
+          system.out.println("Table 6: %d",count1);
+
+      }catch(SQLException e){
+          System.out.println("Error in Load Table!");
+          System.out.print("[Error]:");
+          System.out.println(e);
+      }
+
+
     }
 
 

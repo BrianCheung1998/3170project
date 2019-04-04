@@ -1,8 +1,16 @@
+
+
+
+
+
+
+
 public class Employee {
     public void show_available_positions(String employeeID){
         /*
         TO DO: After the employee enters his/her Employee_ID, the system shall return all available records.
-        Each record should contain the detail of the position including Position_ID, Position_Title, Salary, and the detail of the company including Company, Size, Founded.
+        Each record should contain the detail of the position including Position_ID,
+        Position_Title, Salary, and the detail of the company including Company, Size, Founded.
         */
     }
 
