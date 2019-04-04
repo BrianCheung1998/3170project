@@ -77,7 +77,7 @@ public class Employee {
     public int check_average_working_time(String employeeID){
         /*
         TO DO: The average working time is defined by the average of the working days
-        of the last 3 records (excluding the current position he/she serveDataBase.rSet
+        of the last 3 records (excluding the current position he/she servers
         and return the average working time
         */
         return 0;

@@ -50,7 +50,7 @@ public class Administrator{
         "Experience Integer NOT NULL,"+
         "Employer_ID char(6) NOT NULL,"+
         "Status boolean NOT NULL,"+
-        "PRIMARY KEY(Position_ID)"+
+        "PRIMARY KEY(Position_ID),"+
         "FOREIGN KEY(Employer_ID) REFERENCES Employer(Employer_ID)"+")"
         ;
         //System.out.println()
@@ -70,7 +70,7 @@ public class Administrator{
         "Status boolean NOT NULL,"+
         "PRIMARY KEY(Position_ID),"+
         "PRIMARY KEY(Employee_ID),"+
-        "FOREIGN KEY(Position_ID) REFERENCES Position(Position_ID),"+
+        "FOREIGN KEY(Position_ID) REFERENCES Position_Table(Position_ID),"+
         "FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID)"+")"
         ;
 
@@ -80,8 +80,8 @@ public class Administrator{
             DataBase.sta.executeUpdate(sql_company);
             DataBase.sta.executeUpdate(sql_employer);
             DataBase.sta.executeUpdate(sql_position);
-            DataBase.sta.executeUpdate(sql_employmentHistory);
-            DataBase.sta.executeUpdate(sql_marked);
+            //DataBase.sta.executeUpdate(sql_employmentHistory);
+            //DataBase.sta.executeUpdate(sql_marked);
         }catch(SQLException e){
             System.out.println("Error in Create Table!");
             System.out.print("[Error]:");
