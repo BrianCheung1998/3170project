@@ -1,4 +1,19 @@
+import java.io.*;
+import java.util.*;
+import java.sql.*;
+import java.text.*;
+
 public class Employee {
+    String sql_employee = null;
+    String sql_company  = null;
+    String sql_employer = null;
+    String sql_position = null;
+    String sql_employmentHistory = null;
+    String sql_marked = null;
+    ConnectToMySQL DataBase = new ConnectToMySQL();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    Scanner reader;
+
     public void show_available_positions(String employeeID){
         /*
         TO DO: After the employee enters his/her Employee_ID, the system shall return all available records.
