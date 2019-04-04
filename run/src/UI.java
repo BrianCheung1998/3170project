@@ -27,7 +27,7 @@ public class UI{
     //Constructor
     static int currentState;
     Scanner kb;
-    Administrator admin_do = new Administrator();
+    Administrator admin_do;
     Employee employee_do;
     Employer employer_do;
     public UI(){

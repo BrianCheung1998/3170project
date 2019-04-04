@@ -164,30 +164,24 @@ public class Administrator{
 
       try{
           DataBase.sta = DataBase.con.createStatement();
-avavavava
-          DataBase.rSet = DataBase.sta.executeUpdate(sql_employee);
-          int count1 = DataBase.rSet.getInt("count1");
-          system.out.println("Table 1: %d",count1);
 
-          DataBase.rSet = DataBase.sta.executeUpdate(sql_company);
-          count1 = DataBase.rSet.getInt("count1");
-          system.out.println("Table 2: %d",count1);
+          int count1 = DataBase.sta.executeUpdate(sql_employee);
+          System.out.format("Table 1: %s\n",count1);
 
-          DataBase.rSet = DataBase.sta.executeUpdate(sql_employer);
-          count1 = DataBase.rSet.getInt("count1");
-          system.out.println("Table 3: %d",count1);
+          count1 = DataBase.sta.executeUpdate(sql_company);
+          System.out.format("Table 2: %s\n",count1);
 
-          DataBase.rSet = DataBase.sta.executeUpdate(sql_position);
-          count1 = DataBase.rSet.getInt("count1");
-          system.out.println("Table 4: %d",count1);
+          count1 = DataBase.sta.executeUpdate(sql_employer);
+          System.out.format("Table 2: %s\n",count1);
 
-          DataBase.rSet = DataBase.sta.executeUpdate(sql_employmentHistory);
-          count1 = DataBase.rSet.getInt("count1");
-          system.out.println("Table 5: %d",count1);
+          count1 = DataBase.sta.executeUpdate(sql_position);
+          System.out.format("Table 2: %s\n",count1);
 
-          DataBase.rSet = DataBase.sta.executeUpdate(sql_marked);
-          count1 = DataBase.rSet.getInt("count1");
-          system.out.println("Table 6: %d",count1);
+          count1 = DataBase.sta.executeUpdate(sql_employmentHistory);
+          System.out.format("Table 2: %s\n",count1);
+
+          count1 = DataBase.sta.executeUpdate(sql_marked);
+         System.out.format("Table 2: %s\n",count1);
 
       }catch(SQLException e){
           System.out.println("Error in Load Table!");
