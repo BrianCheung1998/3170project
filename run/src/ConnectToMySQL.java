@@ -16,7 +16,7 @@ public class ConnectToMySQL{
         String dbUsername = "Group26";
         String dbPassword = "group26";
 
-        
+
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(dbAddress,dbUsername,dbPassword);
@@ -29,4 +29,3 @@ public class ConnectToMySQL{
         }
     }
 }
-

@@ -96,7 +96,7 @@ public class Administrator{
         sql_position = "DROP TABLE IF EXISTS Position";
         sql_employmentHistory = "DROP TABLE IF EXISTS Employment_History";
         sql_marked = "DROP TABLE IF EXISTS marked";
-        
+
         try{
             DataBase.sta = DataBase.con.createStatement();
             DataBase.sta.executeUpdate(sql_employee);
@@ -155,7 +155,41 @@ public class Administrator{
     }
 
     public void check_data(){
-        /* TODO */
+      sql_employee = "SELECT COUNT(*) FROM Employee";
+      sql_company  = "SELECT COUNT(*) FROM Company";
+      sql_employer = "SELECT COUNT(*) FROM Employer";
+      sql_position = "SELECT COUNT(*) FROM Position";
+      sql_employmentHistory = "SELECT COUNT(*) FROM Employment_History";
+      sql_marked = "SELECT COUNT(*) FROM marked";
+
+      try{
+          DataBase.sta = DataBase.con.createStatement();
+
+          int count1 = DataBase.sta.executeUpdate(sql_employee);
+          System.out.format("Table 1: %s\n",count1);
+
+          count1 = DataBase.sta.executeUpdate(sql_company);
+          System.out.format("Table 2: %s\n",count1);
+
+          count1 = DataBase.sta.executeUpdate(sql_employer);
+          System.out.format("Table 2: %s\n",count1);
+
+          count1 = DataBase.sta.executeUpdate(sql_position);
+          System.out.format("Table 2: %s\n",count1);
+
+          count1 = DataBase.sta.executeUpdate(sql_employmentHistory);
+          System.out.format("Table 2: %s\n",count1);
+
+          count1 = DataBase.sta.executeUpdate(sql_marked);
+         System.out.format("Table 2: %s\n",count1);
+
+      }catch(SQLException e){
+          System.out.println("Error in Load Table!");
+          System.out.print("[Error]:");
+          System.out.println(e);
+      }
+
+
     }
 
 
