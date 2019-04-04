@@ -152,14 +152,10 @@ public class Administrator{
             System.out.print("[Error]:");
             System.out.println(e);
         }
+    }
 
-
-
-
-
-
-
-
+    public void check_data(){
+        /* TODO */
     }
 
 

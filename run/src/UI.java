@@ -92,18 +92,14 @@ public class UI{
                             int selection = kb.nextInt();
                             kb.nextLine();
                             if (selection == 1){    //Create tables ---wrote
-                                admin_do.create_table();
                                 swap_to(S_admin_createTable);
                                 break;
                             }
                             if (selection == 2){    //Delete Tables ---wrote
-                                admin_do.delete_table();
                                 swap_to(S_admin_deleteTable);
                                 break;
                             }
                             if (selection == 3){    //Load data     ---wrote
-                                String folder = kb.nextLine();
-                                admin_do.load_data(folder);
                                 swap_to(S_admin_loadData);
                                 break;
                             }
@@ -195,27 +191,22 @@ public class UI{
                 break;
 
                 case S_admin_createTable:
+                    admin_do.create_table();
                     System.out.println("Processing...Done! Tables are created!");
-                    /*
-                    TO DO: creates all the tables for this system based on the relational schema given.
-                    */
                     swap_to(S_admin);
                 break;
 
                 case S_admin_deleteTable:
+                    admin_do.delete_table();
                     System.out.println("Processing...Done! Tables are deleted!");
-                    /*
-                    TO DO: deletes all existing tables in the system.
-                    */
                     swap_to(S_admin);
                 break;
                 
                 case S_admin_loadData:
                     System.out.println("Please enter the folder path.");
-                    String fileName = kb.nextLine();
-                    /*
-                    TO DO: contains all 5 data files, namely employee.csv, company.csv, employer.csv, position.csv, and history.csv. See section 3 for data files specifications.
-                    */
+                    String folderPath = kb.nextLine(); //Enter the folder path
+                    admin_do.load_data(folderPath);
+
                     System.out.println("Processing...Data is loaded!:");
 
                     swap_to(S_admin);
@@ -223,10 +214,7 @@ public class UI{
             
                 case S_admin_checkData:
                     System.out.println("Number of records in each table:");
-                    /*
-                    TO DO: For each table in the database, display the number of records in it.
-                    */
-
+                    admin_do.check_data();
                     swap_to(S_admin);
                 break;
             
@@ -243,10 +231,8 @@ public class UI{
                     String Employee_ID = kb.nextLine();
                     System.out.println("Your available positions are:");
                     System.out.println("Position_ID Position_Title, Salary, Company, Size, Founded");
-                    /*
-                    TO DO: After the employee enters his/her Employee_ID, the system shall return all available records.
-                    Each record should contain the detail of the position including Position_ID, Position_Title, Salary, and the detail of the company including Company, Size, Founded.
-                    */
+
+                    employee_do.show_available_positions(Employee_ID);
 
                     swap_to(S_admin);
                 break;
@@ -262,10 +248,7 @@ public class UI{
                     Employee_ID = kb.nextLine();
                     System.out.println("Your interest position are:");
                     System.out.println("Position_ID Position_Title, Salary, Company, Size, Founded");
-                    /*
-                    TO DO: Show all positions that the employee may be interested,
-                    then prompt the employee to mark one position as interested, and save this information.
-                    */
+                    employee_do.mark_interested_position(Employee_ID);
 
                     swap_to(S_employee);
                 break;
@@ -273,11 +256,7 @@ public class UI{
                 case S_employee_checkAverageWorkTime:
                     System.out.println("Please enter your ID.");
                     Employee_ID = kb.nextLine();
-                    /*
-                    TO DO: The average working time is defined by the average of the working days
-                    of the last 3 records (excluding the current position he/she servers 
-                    */
-                    int __time__ = 0;
+                    int __time__ = employee_do.check_average_working_time(Employee_ID);
                     System.out.printf("Your average working time is: %d days",__time__);
 
                     swap_to(S_employee);
@@ -298,7 +277,9 @@ public class UI{
                     int experience_int;
                     if (experience_string.isEmpty()) experience_string = "0";// allow skip
                     experience_int = Integer.parseInt(experience_string);
-                    
+
+                    employer_do.post_position_recruitment(Employer_ID, Position_Title, Salary);
+
                     /*
                     TO DO: the system should post the position requirement, and display the number of potential employees to the employer. Otherwise return an error message for the employer.
                     A potential employee is an employee that:
@@ -330,7 +311,9 @@ public class UI{
                     System.out.println("Please pick one employee by Employee_ID.");
                     Employee_ID = kb.nextLine();
                     kb.nextLine();
-                    // do something?
+
+                    employer_do.check_employees_and_arrange_an_interview(Employer_ID, Position_ID, Employee_ID);
+
                     System.out.println("An IMMEDIATE interview has done.");
 
                     swap_to(S_employee);
@@ -347,7 +330,8 @@ public class UI{
 
                     System.out.println("An Employment History record is created, details are:");
                     System.out.println("Employee_ID, Company, Position_ID, Start, End");
-                    /* List of person history */
+
+                    employer_do.accept_an_employee(Employer_ID, Employee_ID);
 
                     swap_to(S_employee);
                 break;
