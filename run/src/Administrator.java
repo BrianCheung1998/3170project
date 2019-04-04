@@ -43,16 +43,17 @@ public class Administrator{
         "FOREIGN KEY(Company) REFERENCES Company(Company)"+")"
         ;
         //TABLE 4: Position – position.csv
-        sql_position = "CREATE TABLE IF NOT EXISTS Position("+
+        sql_position = "CREATE TABLE IF NOT EXISTS Position_table("+
         "Position_ID char(6) NOT NULL,"+
         "Position_Title char(30) NOT NULL,"+
-        "Salary int NOT NULL,"+
-        "Experience int NOT NULL,"+
+        "Salary Integer NOT NULL,"+
+        "Experience Integer NOT NULL,"+
         "Employer_ID char(6) NOT NULL,"+
         "Status boolean NOT NULL,"+
         "PRIMARY KEY(Position_ID)"+
         "FOREIGN KEY(Employer_ID) REFERENCES Employer(Employer_ID)"+")"
         ;
+        //System.out.println()
         // TABLE 5: Employment History – history.csv
         sql_employmentHistory = "CREATE TABLE IF NOT EXISTS Employment_History("+
         "Position_ID char(6) NOT NULL,"+
@@ -158,7 +159,7 @@ public class Administrator{
       sql_employee = "SELECT COUNT(*) FROM Employee";
       sql_company  = "SELECT COUNT(*) FROM Company";
       sql_employer = "SELECT COUNT(*) FROM Employer";
-      sql_position = "SELECT COUNT(*) FROM Position";
+      sql_position = "SELECT COUNT(*) FROM Position_table";
       sql_employmentHistory = "SELECT COUNT(*) FROM Employment_History";
       sql_marked = "SELECT COUNT(*) FROM marked";
 
@@ -172,16 +173,16 @@ public class Administrator{
           System.out.format("Table 2: %s\n",count1);
 
           count1 = DataBase.sta.executeUpdate(sql_employer);
-          System.out.format("Table 2: %s\n",count1);
+          System.out.format("Table 3: %s\n",count1);
 
           count1 = DataBase.sta.executeUpdate(sql_position);
-          System.out.format("Table 2: %s\n",count1);
+          System.out.format("Table 4: %s\n",count1);
 
           count1 = DataBase.sta.executeUpdate(sql_employmentHistory);
-          System.out.format("Table 2: %s\n",count1);
+          System.out.format("Table 5: %s\n",count1);
 
           count1 = DataBase.sta.executeUpdate(sql_marked);
-         System.out.format("Table 2: %s\n",count1);
+         System.out.format("Table 6: %s\n",count1);
 
       }catch(SQLException e){
           System.out.println("Error in Load Table!");

@@ -17,18 +17,18 @@ public class Employee {
         */
         try{
           sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
-                  "FROM Position P,Employer E,Company C WHERE P.Employer_ID = E.Employer_ID,"+
+                  "FROM Position_table P,Employer E,Company C WHERE P.Employer_ID = E.Employer_ID,"+
                   "P.Company = C.Company";
 
           DataBase.rSet = DataBase.sta.executeQuery(sql);
           System.out.println("Table 6: fa");
           while (DataBase.rSet.next()){
-            String id = DataBase.rSet.getString("id");
-            String title = DataBase.rSet.getString("title");
-            int salary = DataBase.rSet.getInt("salary");
-            String company = DataBase.rSet.getString("company");
-            int size = DataBase.rSet.getInt("size");
-            int founded = DataBase.rSet.getInt("founded");
+            String id = DataBase.rSet.getString("Position_ID");
+            String title = DataBase.rSet.getString("Position_Title");
+            int salary = DataBase.rSet.getInt("Salary");
+            String company = DataBase.rSet.getString("Company");
+            int size = DataBase.rSet.getInt("Size");
+            int founded = DataBase.rSet.getInt("Founded");
 
             System.out.format("%s, %s, %s, %s, %s, %s\n", id, title, salary, company, size, founded);
           }
@@ -48,7 +48,7 @@ public class Employee {
         */
         try{
           sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
-                    "FROM Position P,Employer E,Company C,Employment_History H,marked m WHERE P.Employer_ID = E.Employer_ID,"+
+                    "FROM Position_table P,Employer E,Company C,Employment_History H,marked m WHERE P.Employer_ID = E.Employer_ID,"+
                     "P.Company = C.Company, H.Employee_ID = " +employeeID+", H.Position_ID != P.Position_ID,"+
                     "m.Employee_ID = "+"employeeID"+", m.Position_ID != P.Position_ID";
           DataBase.rSet = DataBase.sta.executeQuery(sql);
