@@ -57,8 +57,8 @@ public class Administrator{
         sql_employmentHistory = "CREATE TABLE IF NOT EXISTS Employment_History("+
         "Position_ID char(6) NOT NULL,"+
         "Employee_ID char(6) NOT NULL,"+
-        "Start dateType NOT NULL,"+
-        "End dateType,"+
+        "Start date NOT NULL,"+
+        "End date,"+
         "PRIMARY KEY(Position_ID),"+
         "FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID)"+")"
         ;
@@ -67,8 +67,7 @@ public class Administrator{
         "Position_ID char(6) NOT NULL,"+
         "Employee_ID char(6) NOT NULL,"+
         "Status boolean NOT NULL,"+
-        "PRIMARY KEY(Position_ID),"+
-        "PRIMARY KEY(Employee_ID),"+
+        "PRIMARY KEY(Position_ID, Employee_ID),"+
         "FOREIGN KEY(Position_ID) REFERENCES Position_Table(Position_ID),"+
         "FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID)"+")"
         ;
@@ -79,8 +78,8 @@ public class Administrator{
             DataBase.sta.executeUpdate(sql_company);
             DataBase.sta.executeUpdate(sql_employer);
             DataBase.sta.executeUpdate(sql_position);
-            //DataBase.sta.executeUpdate(sql_employmentHistory);
-            //DataBase.sta.executeUpdate(sql_marked);
+            DataBase.sta.executeUpdate(sql_employmentHistory);
+            DataBase.sta.executeUpdate(sql_marked);
         }catch(SQLException e){
             System.out.println("Error in Create Table!");
             System.out.print("[Error]:");
