@@ -69,7 +69,7 @@ public class Administrator{
         "Status boolean NOT NULL,"+
         "PRIMARY KEY(Position_ID),"+
         "PRIMARY KEY(Employee_ID),"+
-        "FOREIGN KEY(Position_ID) REFERENCES Position(Position_ID),"+
+        "FOREIGN KEY(Position_ID) REFERENCES Position_Table(Position_ID),"+
         "FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID)"+")"
         ;
 
