@@ -58,8 +58,8 @@ public class Administrator{
         sql_employmentHistory = "CREATE TABLE IF NOT EXISTS Employment_History("+
         "Position_ID char(6) NOT NULL,"+
         "Employee_ID char(6) NOT NULL,"+
-        "Start dateType NOT NULL,"+
-        "End dateType,"+
+        "Start date NOT NULL,"+
+        "End date,"+
         "PRIMARY KEY(Position_ID),"+
         "FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID)"+")"
         ;
@@ -68,8 +68,7 @@ public class Administrator{
         "Position_ID char(6) NOT NULL,"+
         "Employee_ID char(6) NOT NULL,"+
         "Status boolean NOT NULL,"+
-        "PRIMARY KEY(Position_ID),"+
-        "PRIMARY KEY(Employee_ID),"+
+        "PRIMARY KEY(Position_ID, Employee_ID),"+
         "FOREIGN KEY(Position_ID) REFERENCES Position_Table(Position_ID),"+
         "FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID)"+")"
         ;
@@ -94,7 +93,7 @@ public class Administrator{
         sql_employee = "DROP TABLE IF EXISTS Employee";
         sql_company  = "DROP TABLE IF EXISTS Company";
         sql_employer = "DROP TABLE IF EXISTS Employer";
-        sql_position = "DROP TABLE IF EXISTS Position";
+        sql_position = "DROP TABLE IF EXISTS Position_Table";
         sql_employmentHistory = "DROP TABLE IF EXISTS Employment_History";
         sql_marked = "DROP TABLE IF EXISTS marked";
 
@@ -131,7 +130,7 @@ public class Administrator{
         "(Employer_ID, Name, Company)";
 
         sql_position = "load data local infile './"+folderPath+"/position.csv' "+
-        "into table Position"+
+        "into table Position_Table"+
         "fields terminated by ',' lines terminated by '\\n'"+
         "(Position_ID, Position_Title, Salary, Experience, Status, Employer_ID)";
 
@@ -159,7 +158,7 @@ public class Administrator{
       sql_employee = "SELECT COUNT(*) FROM Employee";
       sql_company  = "SELECT COUNT(*) FROM Company";
       sql_employer = "SELECT COUNT(*) FROM Employer";
-      sql_position = "SELECT COUNT(*) FROM Position_table";
+      sql_position = "SELECT COUNT(*) FROM Position_Table";
       sql_employmentHistory = "SELECT COUNT(*) FROM Employment_History";
       sql_marked = "SELECT COUNT(*) FROM marked";
 
