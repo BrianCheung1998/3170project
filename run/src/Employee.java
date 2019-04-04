@@ -17,7 +17,7 @@ public class Employee {
         */
         try{
           sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
-                  "FROM Position_table P,Employer E,Company C WHERE P.Employer_ID = E.Employer_ID,"+
+                  "FROM Position_Table P,Employer E,Company C WHERE P.Employer_ID = E.Employer_ID,"+
                   "P.Company = C.Company";
 
           DataBase.rSet = DataBase.sta.executeQuery(sql);
@@ -48,7 +48,7 @@ public class Employee {
         */
         try{
           sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
-                    "FROM Position_table P,Employer E,Company C,Employment_History H,marked m WHERE P.Employer_ID = E.Employer_ID,"+
+                    "FROM Position_Table P,Employer E,Company C,Employment_History H,marked m WHERE P.Employer_ID = E.Employer_ID,"+
                     "P.Company = C.Company, H.Employee_ID = " +employeeID+", H.Position_ID != P.Position_ID,"+
                     "m.Employee_ID = "+"employeeID"+", m.Position_ID != P.Position_ID";
           DataBase.rSet = DataBase.sta.executeQuery(sql);

@@ -43,7 +43,7 @@ public class Administrator{
         "FOREIGN KEY(Company) REFERENCES Company(Company)"+")"
         ;
         //TABLE 4: Position – position.csv
-        sql_position = "CREATE TABLE IF NOT EXISTS Position_table("+
+        sql_position = "CREATE TABLE IF NOT EXISTS Position_Table("+
         "Position_ID char(6) NOT NULL,"+
         "Position_Title char(30) NOT NULL,"+
         "Salary Integer NOT NULL,"+
@@ -80,8 +80,8 @@ public class Administrator{
             DataBase.sta.executeUpdate(sql_company);
             DataBase.sta.executeUpdate(sql_employer);
             DataBase.sta.executeUpdate(sql_position);
-            //DataBase.sta.executeUpdate(sql_employmentHistory);
-            //DataBase.sta.executeUpdate(sql_marked);
+            DataBase.sta.executeUpdate(sql_employmentHistory);
+            DataBase.sta.executeUpdate(sql_marked);
         }catch(SQLException e){
             System.out.println("Error in Create Table!");
             System.out.print("[Error]:");
