@@ -297,48 +297,28 @@ public class UI{
                     {
                         System.out.println("No potential employee found, The position recruitment have not been posted");
                     }
-                    swap_to(S_employee);
+                    swap_to(S_employer);
                 break;
 
-                case S_employer_checkAndArrange:/*
+                case S_employer_checkAndArrange:
                     System.out.println("Please enter your ID.");
                     Employer_ID = kb.nextLine();
                     kb.nextLine();
                     // Get the list of position
-                    String[] Position_List = employer_do.find_position_posted(Employer_ID);
+                    employer_do.find_position_posted(Employer_ID);
 
-                    System.out.println("The id of position recruitment posted by you are:");
-                    //Print the list of position
-                    for(int i = 0; i < Position_List.length; i++){
-                        System.out.println(Position_List[i]);
-                    }
 
                     System.out.println("Please pick one position id.");
                     String Position_ID = kb.nextLine();
                     kb.nextLine();
-                    String[][] Employee_Information_List = employer_do.find_interest_employee(Position_ID);
-
-                    System.out.println("The employees who mark interested in this position recruitment are:");
-                    System.out.println("Employee_ID, Name, Expected_Salary, Experience, Skills");
-                    //Print the list of employees
-                    for(int i = 0; i < Employee_Information_List.length; i++){
-                        for(int j = 0; j < Employee_Information_List[i].length; j++){
-                            System.out.print(Employee_Information_List[i][j]);
-                            if(j != Employee_Information_List[i].length - 1){
-                                System.out.print(", ");
-                            }
-                            else{
-                                System.out.println();
-                            }
-                        }
-                    }
+                    employer_do.find_interest_employee(Position_ID);
 
                     System.out.println("Please pick one employee by Employee_ID.");
                     Employee_ID = kb.nextLine();
                     kb.nextLine();
                     employer_do.arrange_interview(Employee_ID, Position_ID);
 
-                    System.out.println("An IMMEDIATE interview has done.");*/
+                    System.out.println("An IMMEDIATE interview has done.");
 
                     swap_to(S_employee);
                 break;
@@ -352,12 +332,9 @@ public class UI{
                     Employee_ID = kb.nextLine();
                     kb.nextLine();
 
-                    System.out.println("An Employment History record is created, details are:");
-                    System.out.println("Employee_ID, Company, Position_ID, Start, End");
-
                     employer_do.accept_an_employee(Employer_ID, Employee_ID);
 
-                    swap_to(S_employee);
+                    swap_to(S_employer);
                 break;
                 default:
 
