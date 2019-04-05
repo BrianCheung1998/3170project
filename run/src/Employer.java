@@ -1,3 +1,4 @@
+import javax.swing.text.Position;
 import javax.xml.crypto.Data;
 import java.io.*;
 import java.util.*;
@@ -84,8 +85,36 @@ public class Employer {
     }
     public void check_employees_and_arrange_an_interview(String Employer_ID, String Position_ID, String Employee_ID){
 
+        // get the position posted by this employer
+        String Pos_Query =
+                "SELECT P.Position_ID"+
+                "From Position_Table P"+
+                "WHERE P.Employer_ID=" + Employer_ID;
+
+        //get who is interest in the position
+        String Employee_Query =
+            "SELECT M.Employee_ID, E.Name, E.Expected_Salary, E.Experience, E.Skills"+
+            "FROM marked M, Employee E"+
+            "WHERE M.Employee_ID = E.Employee_ID and " +
+            "M.Position_ID=" + Position_ID + " and M.Employee_ID="
+            + Employee_ID;
+
+        //arrange an immediate interview
+        String Interview_Query =
+                "UPDATE Position_Table"+
+                "SET Status = TRUE"+
+                "WHERE Position_ID=" + Position_ID;
+
     }
     public void accept_an_employee(String Employer_ID, String Employee_ID){
         /* List of person history */
+
+        // check if the position is marked by the employee and posted by the employer
+        
+        // if suitable, create employment history record
+
+        // if suitable, changes the status of the "marked" record to be invalid
+
+        // if not suitable, show error message
     }
 }
