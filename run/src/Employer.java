@@ -5,13 +5,27 @@ import java.sql.*;
 import java.text.*;
 
 public class Employer {
+    static String dbAddress = "jdbc:mysql://projgw.cse.cuhk.edu.hk:2633/db26";
+    static String dbUsername = "Group26";
+    static String dbPassword = "group26";
+    public static Connection con = null;
+
+    public static Statement stmt = null;
+    public static ResultSet resultSet = null;
     String sql = null;
     ConnectToMySQL DataBase = new ConnectToMySQL();
-    public void post_position_recruitment(String Employer_ID, String Position_Title, int Salary, int Experience){
+
+    public int post_position_recruitment(String Employer_ID, String Position_Title, int Salary, int Experience){
         int Temp_Position_ID = 0;
         int Suitable_Count = 0;
+        try{
+            Connection con = DriverManager.getConnection(dbAddress, dbUsername, dbPassword);
+        }
+        catch(Exception Connection_e){
+            System.out.println("Connect Fail");
+        }
         //setup the sql query
-        String Get_SQL =
+        sql =
                 "SELECT E.Skills, E.Expected_Salary, E.Experience"+
                 "FROM Employment_History EH, Employee E"+
                 "WHERE (EH.Employee_ID = E.Employee_ID and EH.End IS NOT NULL)"+ // not working for any company currently
@@ -21,16 +35,18 @@ public class Employer {
                 ")";
 
         String Set_SQL =
-                String.format("INSERT INTO Position (Position_ID, Position_Title, Salary, Experience, Employer_ID, Status)" +
-                        "VALUE (" + String.format("%010d", Temp_Position_ID) + Position_Title + String.valueOf(Salary) +
-                        String.valueOf(Experience) + Employer_ID + "TRUE");
+                "INSERT INTO Position_Table (Position_ID, Position_Title, Salary, Experience, Employer_ID, Status)" +
+                "VALUE (" + String.format("%010d", Temp_Position_ID) + Position_Title + String.valueOf(Salary) +
+                String.valueOf(Experience) + Employer_ID + "TRUE"+")";
 
         try{ //check if there is any suitable employee
-            DataBase.rSet = DataBase.sta.executeQuery(Get_SQL);
-            while(DataBase.rSet.next()){
-                String skills = DataBase.rSet.getString("skills");
-                int expected_salary = DataBase.rSet.getInt("expected_salary");
-                int experience = DataBase.rSet.getInt("experience");
+            Statement stmt = con.createStatement();
+            ResultSet resultSet = stmt.executeQuery(sql);
+            //DataBase.rSet = DataBase.sta.executeQuery(sql);
+            while(resultSet.next()){
+                String skills = resultSet.getString("skills");
+                int expected_salary = resultSet.getInt("expected_salary");
+                int experience = resultSet.getInt("experience");
                 String[] Skill_Set = skills.split(";");
                 int Skill_Set_Size = Skill_Set.length;
                 Boolean Have_Skill = Boolean.FALSE;
@@ -48,28 +64,23 @@ public class Employer {
                     Suitable_Count++;
                 }
             }
+            stmt.close();
         }
         catch (Exception e){
             System.err.println("Error occur when getting data for Position Recruitment");
             System.err.println(e.getMessage());
         }
         // if there is no record meet the requirement, return error
-        if(Suitable_Count <= 0){
-            System.out.println("No potential employee found, The position recruitment have not been posted");
-        }
-        else{
-            System.out.print(String.valueOf(Suitable_Count) + " potential employees are found.");
+        if(Suitable_Count > 0){
             try{
-
+                DataBase.sta.executeUpdate(Set_SQL);
             }
             catch(Exception e2){
-
+                System.err.println("Error occur when positing Position Recruitment");
+                System.err.println(e2.getMessage());
             }
         }
-
-
-
-
+        return Suitable_Count;
     }
     public void check_employees_and_arrange_an_interview(String Employer_ID, String Position_ID, String Employee_ID){
 

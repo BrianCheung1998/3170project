@@ -80,6 +80,7 @@ public class Administrator{
             DataBase.sta.executeUpdate(sql_position);
             DataBase.sta.executeUpdate(sql_employmentHistory);
             DataBase.sta.executeUpdate(sql_marked);
+
         }catch(SQLException e){
             System.out.println("Error in Create Table!");
             System.out.print("[Error]:");

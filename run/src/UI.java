@@ -278,7 +278,7 @@ public class UI{
                     if (experience_string.isEmpty()) experience_string = "0";// allow skip
                     experience_int = Integer.parseInt(experience_string);
 
-                    employer_do.post_position_recruitment(Employer_ID, Position_Title, Salary, experience_int);
+                    int __num__ = employer_do.post_position_recruitment(Employer_ID, Position_Title, Salary, experience_int);
 
                     /*
                     TO DO: the system should post the position requirement, and display the number of potential employees to the employer. Otherwise return an error message for the employer.
@@ -289,8 +289,13 @@ public class UI{
                         larger than the upper bound of salary; for criterion 3, the employee's Experience
                         should not less than the input experience (no input means experience=0)
                     */
-                    int __num__ = 0;
-                    System.out.printf("%d potential empolyees are found. The position recruitment is posted.\n",__num__);
+                    if(__num__ > 0){
+                        System.out.printf("%d potential empolyees are found. The position recruitment is posted.\n",__num__);
+                    }
+                    else
+                    {
+                        System.out.println("No potential employee found, The position recruitment have not been posted");
+                    }
                     swap_to(S_employee);
                 break;
 
