@@ -19,7 +19,7 @@ public class Employee {
           sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
                   "FROM Position_Table P,Employer E,Company C WHERE P.Employer_ID = E.Employer_ID,"+
                   "P.Company = C.Company";
-
+          DataBase.sta = DataBase.con.createStatement();
           DataBase.rSet = DataBase.sta.executeQuery(sql);
           System.out.println("Table 6: fa");
           while (DataBase.rSet.next()){
@@ -32,8 +32,9 @@ public class Employee {
 
             System.out.format("%s, %s, %s, %s, %s, %s\n", id, title, salary, company, size, founded);
           }
+
           DataBase.sta.close();
-       }
+        }
        catch(Exception e){
          System.err.println("Got an exception! ");
          System.err.println(e.getMessage());
@@ -47,6 +48,8 @@ public class Employee {
         then prompt the employee to mark one position as interested, and save this information.
         */
         try{
+
+          DataBase.sta = DataBase.con.createStatement();
           sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
                     "FROM Position_Table P,Employer E,Company C,Employment_History H,marked m WHERE P.Employer_ID = E.Employer_ID,"+
                     "P.Company = C.Company, H.Employee_ID = " +employeeID+", H.Position_ID != P.Position_ID,"+
