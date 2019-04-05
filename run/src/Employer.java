@@ -27,14 +27,13 @@ public class Employer {
 
         String Set_SQL =
                 "INSERT INTO Position_Table (Position_ID, Position_Title, Salary, Experience, Employer_ID, Status)" +
-                "VALUE (" + String.format("%010d", Temp_Position_ID) + ", " + Position_Title +  ", " + String.valueOf(Salary) +
-                ", " + String.valueOf(Experience) +  ", " + Employer_ID +  ", " + "TRUE"+")";
+                "VALUE (\'" + String.format("%010d", Temp_Position_ID) + "\', \'" + Position_Title +  "\', \'" + String.valueOf(Salary) +
+                "\', \'" + String.valueOf(Experience) +  "\', \'" + Employer_ID +  "\', " + "TRUE"+")";
 
         try{ //check if there is any suitable employee
             DataBase.sta = DataBase.con.createStatement();
             DataBase.rSet = DataBase.sta.executeQuery(sql);
 
-            //DataBase.rSet = DataBase.sta.executeQuery(sql);
             while(DataBase.rSet.next()){
                 String skills = DataBase.rSet.getString("skills");
                 int expected_salary = DataBase.rSet.getInt("expected_salary");
@@ -72,32 +71,51 @@ public class Employer {
         }
         return Suitable_Count;
     }
-    public String[] find_position_posted(String Employer_ID){
-        String[] Position_List = new String[10];
-        Position_List[0] = "Nothing";
-        // get the position posted by this employer
-        String Pos_Query =
-                "SELECT P.Position_ID"+
-                "From Position_Table P"+
-                "WHERE P.Employer_ID=" + Employer_ID;
+    public void find_position_posted(String Employer_ID){
+        sql =
+            "SELECT P.Position_ID"+
+            "From Position_Table P"+
+            "WHERE P.Employer_ID=" + Employer_ID;
 
+        try{ // get the position posted by this employer
+            DataBase.sta = DataBase.con.createStatement();
+            DataBase.rSet = DataBase.sta.executeQuery(sql);
 
-
-
-        return Position_List;
+            while(DataBase.rSet.next()){
+                String position_ID = DataBase.rSet.getString("position_ID");
+                System.out.println(position_ID);
+            }
+            DataBase.sta.close();
+        }
+        catch(Exception e){
+            System.err.println("Error occur when getting data for Position Recruitment");
+            System.err.println(e.getMessage());
+        }
     }
 
-    public String[][] find_interest_employee(String Position_ID){
+    public void find_interest_employee(String Position_ID){
         //get who is interest in the position
-        String Employee_Query =
-                "SELECT M.Employee_ID, E.Name, E.Expected_Salary, E.Experience, E.Skills"+
-                        "FROM marked M, Employee E"+
-                        "WHERE M.Employee_ID = E.Employee_ID and " +
-                        "M.Position_ID=" + Position_ID;
+        sql =
+        "SELECT M.Employee_ID, E.Name, E.Expected_Salary, E.Experience, E.Skills "+
+        "FROM marked M, Employee E "+
+        "WHERE M.Employee_ID = E.Employee_ID and " +
+        "M.Position_ID=" + Position_ID;
 
-        String[][] Employee_Information = new String[10][5];
+        try{
+            DataBase.sta = DataBase.con.createStatement();
+            DataBase.rSet = DataBase.sta.executeQuery(sql);
 
-        return Employee_Information;
+            while(DataBase.rSet.next()){
+                String employee_ID = DataBase.rSet.getString("employee_ID");
+                String name = DataBase.rSet.getString("name");
+                int expected_salary = DataBase.rSet.getInt("salary");
+
+            }
+        }
+        catch(Exception e){
+
+        }
+
     }
 
     public void arrange_interview(String Employee_ID, String Position_ID){
@@ -114,15 +132,39 @@ public class Employer {
 
     public void accept_an_employee(String Employer_ID, String Employee_ID){
         /* List of person history */
-
-        // check if the position is marked by the employee and posted by the employer
-        String Get_Position =
-                "SELECT M.Position_ID FROM marked M, Position_Table P " +
-                "WHERE M.Position_ID = P.Position_ID and M.Employee_ID="
+        String position_id;
+        String company;
+        try{// check if the position is marked by the employee and posted by the employer
+            sql=
+                "SELECT M.Position_ID, E.Company" +
+                "FROM marked M, Position_Table P, Employer E" +
+                "WHERE E.Employer_ID = P.Employer_ID and P.Status=TRUE and M.Status=TRUE and " +
+                "M.Position_ID = P.Position_ID and M.Employee_ID="
                 + Employee_ID + " and P.Employer_ID=" + Employer_ID;
+
+            DataBase.sta = DataBase.con.createStatement();
+            DataBase.rSet = DataBase.sta.executeQuery(sql);
+
+            if(DataBase.rSet.next()){
+                position_id = DataBase.rSet.getString("position_id");
+                company = DataBase.rSet.getString("company");
+                System.out.println("An Employment History record is created, details are:");
+                System.out.println("Employee_ID, Company, Position_ID, Start, End");
+                System.out.println(Employee_ID + ", " + company + ", " + position_id + ", " + "2019-01-01" + ", " + "NULL");
+                sql ="INSERT INTO Employment_History Value(\'" + Employee_ID + "\', \'" + company + "\', \'" + position_id + "\', \'" + "2019-01-01" + "\', " + "NULL)";
+                DataBase.sta.close();
+                DataBase.sta = DataBase.con.createStatement();
+                DataBase.sta.executeUpdate(sql);
+            }
+
+        }
+        catch(Exception e){
+            System.err.println("Error occur when getting interview record or posting posting new job history");
+            System.err.println(e.getMessage());
+        }
         // if suitable, create employment history record
 
-        // if suitable, changes the status of the "marked" record to be invalid
+        // if suitable, changes the status of the "Position" record to be invalid
 
         // if not suitable, show error message
     }
