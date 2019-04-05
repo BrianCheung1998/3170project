@@ -81,6 +81,7 @@ public class Employer {
             DataBase.sta = DataBase.con.createStatement();
             DataBase.rSet = DataBase.sta.executeQuery(sql);
 
+            System.out.println("The id of position recruitment posted by you are:");
             while(DataBase.rSet.next()){
                 String position_ID = DataBase.rSet.getString("position_ID");
                 System.out.println(position_ID);
@@ -104,30 +105,42 @@ public class Employer {
         try{
             DataBase.sta = DataBase.con.createStatement();
             DataBase.rSet = DataBase.sta.executeQuery(sql);
+            System.out.println("The employees who mark interested in this position recruitment are:");
+            System.out.println("Employee_ID, Name, Expected_Salary, Experience, Skills");
 
             while(DataBase.rSet.next()){
                 String employee_ID = DataBase.rSet.getString("employee_ID");
                 String name = DataBase.rSet.getString("name");
                 int expected_salary = DataBase.rSet.getInt("salary");
+                int experience = DataBase.rSet.getInt("experience");
+                String skills = DataBase.rSet.getString("skills");
+                //print the employee information
+                System.out.println(employee_ID + ", " + name + ", " + expected_salary + ", " + experience + ", " + skills);
 
             }
         }
         catch(Exception e){
-
+            System.err.println("Error occur when getting employees information");
+            System.err.println(e.getMessage());
         }
 
     }
 
     public void arrange_interview(String Employee_ID, String Position_ID){
-        //arrange an immediate interview
-        String Interview_Query =
-                "UPDATE marked SET Status = TRUE" +
-                " WHERE Position_ID=" + Position_ID +
-                " Employee_ID=" + Employee_ID;
-        /*String Interview_Query =
-                "UPDATE Position_Table"+
-                        "SET Status = TRUE"+
-                        "WHERE Position_ID=" + Position_ID;*/
+
+        sql =
+            "UPDATE marked SET Status = TRUE" +
+            " WHERE Position_ID=" + Position_ID +
+            " Employee_ID=" + Employee_ID;
+        try{//arrange an immediate interview
+            DataBase.sta = DataBase.con.createStatement();
+            DataBase.sta.executeUpdate(sql);
+            System.out.println("An IMMEDIATE interview has done.");
+        }
+        catch(Exception e){
+            System.err.println("Error occur when updating the position status");
+            System.err.println(e.getMessage());
+        }
     }
 
     public void accept_an_employee(String Employer_ID, String Employee_ID){
@@ -156,7 +169,10 @@ public class Employer {
                 DataBase.sta = DataBase.con.createStatement();
                 DataBase.sta.executeUpdate(sql);
             }
-
+            else{
+                System.out.println("The position is not available or no record match");
+            }
+            DataBase.sta.close();
         }
         catch(Exception e){
             System.err.println("Error occur when getting interview record or posting posting new job history");
