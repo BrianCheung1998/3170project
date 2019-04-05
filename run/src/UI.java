@@ -300,7 +300,7 @@ public class UI{
                     swap_to(S_employee);
                 break;
 
-                case S_employer_checkAndArrange:
+                case S_employer_checkAndArrange:/*
                     System.out.println("Please enter your ID.");
                     Employer_ID = kb.nextLine();
                     kb.nextLine();
@@ -338,7 +338,7 @@ public class UI{
                     kb.nextLine();
                     employer_do.arrange_interview(Employee_ID, Position_ID);
 
-                    System.out.println("An IMMEDIATE interview has done.");
+                    System.out.println("An IMMEDIATE interview has done.");*/
 
                     swap_to(S_employee);
                 break;

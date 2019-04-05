@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-import java.sql.*;
+//import java.sql.*;
 import java.text.*;
 
 public class Employee {
@@ -21,7 +21,7 @@ public class Employee {
                   "P.Company = C.Company";
           DataBase.sta = DataBase.con.createStatement();
           DataBase.rSet = DataBase.sta.executeQuery(sql);
-          System.out.println("Table 6: fa");
+          //System.out.println("Table 6: fa");
           while (DataBase.rSet.next()){
             String id = DataBase.rSet.getString("Position_ID");
             String title = DataBase.rSet.getString("Position_Title");
@@ -83,6 +83,41 @@ public class Employee {
         of the last 3 records (excluding the current position he/she servers
         and return the average working time
         */
+        sql = "select * from ( select * from Employment_History "+
+              "where Employee_ID = '"+employeeID+"' order by End DESC LIMIT 3  ) t order by End ASC";
+        long temp = 0;
+        try {
+              DataBase.sta = DataBase.con.createStatement();
+              DataBase.rSet = DataBase.sta.executeQuery(sql);
+
+              while (DataBase.rSet.next()){
+                long count = 0;
+                Date Start = dateFormat.parse(DataBase.rSet.getString("Start"));
+                Date  End = dateFormat.parse(DataBase.rSet.getString("End"));
+                count = End.getTime() - Start.getTime();
+                count = count / (1000*60*60*24);
+                temp = temp+count;
+              }
+              DataBase.sta.close();
+              temp = temp / 3;
+              int temp1 = (int)temp;
+              return temp1;
+           }
+           catch(Exception e){
+             System.err.println("Got an exception! ");
+             System.err.println(e.getMessage());
+           }
+
+
+
+
+
+
+
+
+
+
+
         return 0;
     }
 }
