@@ -278,7 +278,7 @@ public class UI{
                     if (experience_string.isEmpty()) experience_string = "0";// allow skip
                     experience_int = Integer.parseInt(experience_string);
 
-                    employer_do.post_position_recruitment(Employer_ID, Position_Title, Salary);
+                    employer_do.post_position_recruitment(Employer_ID, Position_Title, Salary, experience_int);
 
                     /*
                     TO DO: the system should post the position requirement, and display the number of potential employees to the employer. Otherwise return an error message for the employer.
