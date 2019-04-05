@@ -1,3 +1,4 @@
+import javax.swing.text.Position;
 import java.io.*;
 import java.util.*;
 import java.sql.*;
@@ -303,21 +304,39 @@ public class UI{
                     System.out.println("Please enter your ID.");
                     Employer_ID = kb.nextLine();
                     kb.nextLine();
+                    // Get the list of position
+                    String[] Position_List = employer_do.find_position_posted(Employer_ID);
 
                     System.out.println("The id of position recruitment posted by you are:");
-                    /*List of position */
+                    //Print the list of position
+                    for(int i = 0; i < Position_List.length; i++){
+                        System.out.println(Position_List[i]);
+                    }
+
                     System.out.println("Please pick one position id.");
                     String Position_ID = kb.nextLine();
                     kb.nextLine();
+                    String[][] Employee_Information_List = employer_do.find_interest_employee(Position_ID);
 
                     System.out.println("The employees who mark interested in this position recruitment are:");
                     System.out.println("Employee_ID, Name, Expected_Salary, Experience, Skills");
-                    /*List of employees */
+                    //Print the list of employees
+                    for(int i = 0; i < Employee_Information_List.length; i++){
+                        for(int j = 0; j < Employee_Information_List[i].length; j++){
+                            System.out.print(Employee_Information_List[i][j]);
+                            if(j != Employee_Information_List[i].length - 1){
+                                System.out.print(", ");
+                            }
+                            else{
+                                System.out.println();
+                            }
+                        }
+                    }
+
                     System.out.println("Please pick one employee by Employee_ID.");
                     Employee_ID = kb.nextLine();
                     kb.nextLine();
-
-                    employer_do.check_employees_and_arrange_an_interview(Employer_ID, Position_ID, Employee_ID);
+                    employer_do.arrange_interview(Employee_ID, Position_ID);
 
                     System.out.println("An IMMEDIATE interview has done.");
 

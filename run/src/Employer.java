@@ -72,29 +72,46 @@ public class Employer {
         }
         return Suitable_Count;
     }
-    public void check_employees_and_arrange_an_interview(String Employer_ID, String Position_ID, String Employee_ID){
-
+    public String[] find_position_posted(String Employer_ID){
+        String[] Position_List = new String[10];
+        Position_List[0] = "Nothing";
         // get the position posted by this employer
         String Pos_Query =
                 "SELECT P.Position_ID"+
                 "From Position_Table P"+
                 "WHERE P.Employer_ID=" + Employer_ID;
 
+
+
+
+        return Position_List;
+    }
+
+    public String[][] find_interest_employee(String Position_ID){
         //get who is interest in the position
         String Employee_Query =
-            "SELECT M.Employee_ID, E.Name, E.Expected_Salary, E.Experience, E.Skills"+
-            "FROM marked M, Employee E"+
-            "WHERE M.Employee_ID = E.Employee_ID and " +
-            "M.Position_ID=" + Position_ID + " and M.Employee_ID="
-            + Employee_ID;
+                "SELECT M.Employee_ID, E.Name, E.Expected_Salary, E.Experience, E.Skills"+
+                        "FROM marked M, Employee E"+
+                        "WHERE M.Employee_ID = E.Employee_ID and " +
+                        "M.Position_ID=" + Position_ID;
 
+        String[][] Employee_Information = new String[10][5];
+
+        return Employee_Information;
+    }
+
+    public void arrange_interview(String Employee_ID, String Position_ID){
         //arrange an immediate interview
         String Interview_Query =
+                "UPDATE marked SET Status = TRUE" +
+                " WHERE Position_ID=" + Position_ID +
+                " Employee_ID=" + Employee_ID;
+        /*String Interview_Query =
                 "UPDATE Position_Table"+
-                "SET Status = TRUE"+
-                "WHERE Position_ID=" + Position_ID;
-
+                        "SET Status = TRUE"+
+                        "WHERE Position_ID=" + Position_ID;*/
     }
+
     public void accept_an_employee(String Employer_ID, String Employee_ID){
         /* List of person history */
 
