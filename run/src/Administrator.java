@@ -56,8 +56,8 @@ public class Administrator{
         //System.out.println()
         // TABLE 5: Employment History – history.csv
         sql_employmentHistory = "CREATE TABLE IF NOT EXISTS Employment_History("+
-        "Position_ID char(6) NOT NULL,"+
         "Employee_ID char(6) NOT NULL,"+
+        "Position_ID char(6) NOT NULL,"+
         "Start date NOT NULL,"+
         "End date,"+
         "PRIMARY KEY(Position_ID),"+
@@ -100,12 +100,14 @@ public class Administrator{
 
         try{
             DataBase.sta = DataBase.con.createStatement();
-            DataBase.sta.executeUpdate(sql_employee);
-            DataBase.sta.executeUpdate(sql_company);
-            DataBase.sta.executeUpdate(sql_employer);
-            DataBase.sta.executeUpdate(sql_position);
-            DataBase.sta.executeUpdate(sql_employmentHistory);
+
             DataBase.sta.executeUpdate(sql_marked);
+            DataBase.sta.executeUpdate(sql_employmentHistory);
+            DataBase.sta.executeUpdate(sql_position);
+            DataBase.sta.executeUpdate(sql_employer);
+            DataBase.sta.executeUpdate(sql_company);
+            DataBase.sta.executeUpdate(sql_employee);
+          
         }catch(SQLException e){
             System.out.println("Error in Delete Table!");
             System.out.print("[Error]:");
@@ -114,7 +116,7 @@ public class Administrator{
 
     }
 
-    public void load_data(String folderPath){
+    public void load_data(String folderPath){/*
         sql_employee = "load data local infile './"+folderPath+"/employee.csv' "+
         "into table Employee "+
         "fields terminated by ',' lines terminated by '\\n'"+
@@ -139,6 +141,28 @@ public class Administrator{
         "into table Employment_History "+
         "fields terminated by ',' lines terminated by '\\n'"+
         "(Position_ID, Employee_ID, Start, End)";
+        */
+
+        sql_employee = "load data local infile '"+folderPath+"/employee.csv' "+
+        "into table Employee "+
+        "fields terminated by ',' enclosed by '\"' lines terminated by '\\n'";
+
+        sql_company = "load data local infile '"+folderPath+"/company.csv' "+
+        "into table Company "+
+        "fields terminated by ',' enclosed by '\"' lines terminated by '\\n'";
+
+        sql_employer = "load data local infile '"+folderPath+"/employer.csv' "+
+        "into table Employer "+
+        "fields terminated by ',' enclosed by '\"' lines terminated by '\\n'";
+
+        sql_position = "load data local infile '"+folderPath+"/position.csv' "+
+        "into table Position_Table "+
+        "fields terminated by ',' enclosed by '\"' lines terminated by '\\n'";
+
+        sql_employmentHistory = "load data local infile '"+folderPath+"/history.csv' "+
+        "into table Employment_History "+
+        "fields terminated by ',' enclosed by '\"' lines terminated by '\\n'";
+
 
         try{
             DataBase.sta = DataBase.con.createStatement();
@@ -147,7 +171,7 @@ public class Administrator{
             DataBase.sta.executeUpdate(sql_employer);
             DataBase.sta.executeUpdate(sql_position);
             DataBase.sta.executeUpdate(sql_employmentHistory);
-            DataBase.sta.executeUpdate(sql_marked);
+          //  DataBase.sta.executeUpdate(sql_marked);
         }catch(SQLException e){
             System.out.println("Error in Load Table!");
             System.out.print("[Error]:");
@@ -169,38 +193,38 @@ public class Administrator{
           DataBase.rSet = DataBase.sta.executeQuery(sql_employee);
           while (DataBase.rSet.next()){
             int count1 = DataBase.rSet.getInt("total");
-            System.out.format("Table 1: %s\n",count1);
+            System.out.format("Employee: %s\n",count1);
           }
 
           DataBase.rSet = DataBase.sta.executeQuery(sql_company);
           while (DataBase.rSet.next()){
             int count1 = DataBase.rSet.getInt("total");
-            System.out.format("Table 2: %s\n",count1);
+            System.out.format("Company 2: %s\n",count1);
           }
 
           DataBase.rSet = DataBase.sta.executeQuery(sql_employer);
           while (DataBase.rSet.next()){
             int count1 = DataBase.rSet.getInt("total");
-            System.out.format("Table 3: %s\n",count1);
+            System.out.format("Employer: %s\n",count1);
           }
 
           DataBase.rSet = DataBase.sta.executeQuery(sql_position);
           while (DataBase.rSet.next()){
             int count1 = DataBase.rSet.getInt("total");
-            System.out.format("Table 4: %s\n",count1);
+            System.out.format("Position: %s\n",count1);
           }
 
           DataBase.rSet = DataBase.sta.executeQuery(sql_employmentHistory);
           while (DataBase.rSet.next()){
             int count1 = DataBase.rSet.getInt("total");
-            System.out.format("Table 5: %s\n",count1);
+            System.out.format("Employment_History: %s\n",count1);
           }
 
 
           DataBase.rSet = DataBase.sta.executeQuery(sql_marked);
           while (DataBase.rSet.next()){
             int count1 = DataBase.rSet.getInt("total");
-            System.out.format("Table 6: %s\n",count1);
+            System.out.format("marked: %s\n",count1);
           }
 
       }catch(SQLException e){
