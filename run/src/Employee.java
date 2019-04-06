@@ -18,7 +18,7 @@ public class Employee {
         try{
           sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
                   "FROM Position_Table P,Employer E,Company C WHERE P.Employer_ID = E.Employer_ID,"+
-                  "P.Company = C.Company";
+                  "P.Company = C.Company, P.Status = true";
           DataBase.sta = DataBase.con.createStatement();
           DataBase.rSet = DataBase.sta.executeQuery(sql);
           //System.out.println("Table 6: fa");
@@ -52,7 +52,7 @@ public class Employee {
           DataBase.sta = DataBase.con.createStatement();
           sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
                     "FROM Position_Table P,Employer E,Company C,Employment_History H,marked m WHERE P.Employer_ID = E.Employer_ID,"+
-                    "P.Company = C.Company, H.Employee_ID = " +employeeID+", H.Position_ID != P.Position_ID,"+
+                    "P.Company = C.Company,P.Status = true, H.Employee_ID = "+employeeID+", H.Position_ID != P.Position_ID,"+
                     "m.Employee_ID = "+"employeeID"+", m.Position_ID != P.Position_ID";
           DataBase.rSet = DataBase.sta.executeQuery(sql);
 
@@ -64,7 +64,7 @@ public class Employee {
             int size = DataBase.rSet.getInt("Size");
             int founded = DataBase.rSet.getInt("Founded");
 
-            sql_marked = "INSERT INTO Registration " +
+            sql_marked = "INSERT INTO Registration (Position_ID,Employee_ID,Status)" +
                      "VALUES (id, employeeID, true)";
             DataBase.sta.executeUpdate(sql_marked);
             System.out.format("%s, %s, %s, %s, %s, %s\n", id, title, salary, company, size, founded);
@@ -85,23 +85,33 @@ public class Employee {
         */
         sql = "select * from ( select * from Employment_History "+
               "where Employee_ID = '"+employeeID+"' order by End DESC LIMIT 3  ) t order by End ASC";
+        String sql_employmentHistory = "SELECT COUNT(*) AS total FROM Employment_History where Employee_ID = '"+employeeID+"'";
+        int count1 = 0;
         long temp = 0;
         try {
               DataBase.sta = DataBase.con.createStatement();
-              DataBase.rSet = DataBase.sta.executeQuery(sql);
-
+              DataBase.rSet = DataBase.sta.executeQuery(sql_employmentHistory);
               while (DataBase.rSet.next()){
-                long count = 0;
-                Date Start = dateFormat.parse(DataBase.rSet.getString("Start"));
-                Date  End = dateFormat.parse(DataBase.rSet.getString("End"));
-                count = End.getTime() - Start.getTime();
-                count = count / (1000*60*60*24);
-                temp = temp+count;
+                count1 = DataBase.rSet.getInt("total");
               }
-              DataBase.sta.close();
-              temp = temp / 3;
-              int temp1 = (int)temp;
-              return temp1;
+              if (count1 >= 4){
+                DataBase.rSet = DataBase.sta.executeQuery(sql);
+
+                while (DataBase.rSet.next()){
+                  long count = 0;
+                  Date Start = dateFormat.parse(DataBase.rSet.getString("Start"));
+                  Date  End = dateFormat.parse(DataBase.rSet.getString("End"));
+                  count = End.getTime() - Start.getTime();
+                  count = count / (1000*60*60*24);
+                  temp = temp+count;
+                }
+                DataBase.sta.close();
+                temp = temp / 3;
+                int temp1 = (int)temp;
+                return temp1;
+             }
+             else {return 0;}
+
            }
            catch(Exception e){
              System.err.println("Got an exception! ");

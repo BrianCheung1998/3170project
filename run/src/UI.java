@@ -258,7 +258,10 @@ public class UI{
                     System.out.println("Please enter your ID.");
                     Employee_ID = kb.nextLine();
                     int __time__ = employee_do.check_average_working_time(Employee_ID);
-                    System.out.printf("Your average working time is: %d days",__time__);
+                    if (__time__ > 0){
+                      System.out.printf("Your average working time is: %d days\n",__time__);
+                    }
+                    else {System.out.printf("Less than 3 records\n");}  
 
                     swap_to(S_employee);
                 break;

@@ -156,33 +156,52 @@ public class Administrator{
     }
 
     public void check_data(){
-      sql_employee = "SELECT COUNT(*) FROM Employee";
-      sql_company  = "SELECT COUNT(*) FROM Company";
-      sql_employer = "SELECT COUNT(*) FROM Employer";
-      sql_position = "SELECT COUNT(*) FROM Position_Table";
-      sql_employmentHistory = "SELECT COUNT(*) FROM Employment_History";
-      sql_marked = "SELECT COUNT(*) FROM marked";
+      sql_employee = "SELECT COUNT(*) AS total FROM Employee";
+      sql_company  = "SELECT COUNT(*) AS total FROM Company";
+      sql_employer = "SELECT COUNT(*) AS total FROM Employer";
+      sql_position = "SELECT COUNT(*) AS total FROM Position_Table";
+      sql_employmentHistory = "SELECT COUNT(*) AS total FROM Employment_History";
+      sql_marked = "SELECT COUNT(*) AS total FROM marked";
 
       try{
           DataBase.sta = DataBase.con.createStatement();
 
-          int count1 = DataBase.sta.executeUpdate(sql_employee);
-          System.out.format("Table 1: %s\n",count1);
+          DataBase.rSet = DataBase.sta.executeQuery(sql_employee);
+          while (DataBase.rSet.next()){
+            int count1 = DataBase.rSet.getInt("total");
+            System.out.format("Table 1: %s\n",count1);
+          }
 
-          count1 = DataBase.sta.executeUpdate(sql_company);
-          System.out.format("Table 2: %s\n",count1);
+          DataBase.rSet = DataBase.sta.executeQuery(sql_company);
+          while (DataBase.rSet.next()){
+            int count1 = DataBase.rSet.getInt("total");
+            System.out.format("Table 2: %s\n",count1);
+          }
 
-          count1 = DataBase.sta.executeUpdate(sql_employer);
-          System.out.format("Table 3: %s\n",count1);
+          DataBase.rSet = DataBase.sta.executeQuery(sql_employer);
+          while (DataBase.rSet.next()){
+            int count1 = DataBase.rSet.getInt("total");
+            System.out.format("Table 3: %s\n",count1);
+          }
 
-          count1 = DataBase.sta.executeUpdate(sql_position);
-          System.out.format("Table 4: %s\n",count1);
+          DataBase.rSet = DataBase.sta.executeQuery(sql_position);
+          while (DataBase.rSet.next()){
+            int count1 = DataBase.rSet.getInt("total");
+            System.out.format("Table 4: %s\n",count1);
+          }
 
-          count1 = DataBase.sta.executeUpdate(sql_employmentHistory);
-          System.out.format("Table 5: %s\n",count1);
+          DataBase.rSet = DataBase.sta.executeQuery(sql_employmentHistory);
+          while (DataBase.rSet.next()){
+            int count1 = DataBase.rSet.getInt("total");
+            System.out.format("Table 5: %s\n",count1);
+          }
 
-          count1 = DataBase.sta.executeUpdate(sql_marked);
-         System.out.format("Table 6: %s\n",count1);
+
+          DataBase.rSet = DataBase.sta.executeQuery(sql_marked);
+          while (DataBase.rSet.next()){
+            int count1 = DataBase.rSet.getInt("total");
+            System.out.format("Table 6: %s\n",count1);
+          }
 
       }catch(SQLException e){
           System.out.println("Error in Load Table!");
