@@ -16,9 +16,9 @@ public class Employee {
         Position_Title, Salary, and the detail of the company including Company, Size, Founded.
         */
         try{
-          sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
-                  "FROM Position_Table P,Employer E,Company C WHERE P.Employer_ID = E.Employer_ID,"+
-                  "P.Company = C.Company, P.Status = true";
+          sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded "+
+                  "FROM Position_Table P,Employer E,Company C WHERE P.Employer_ID = E.Employer_ID AND "+
+                  "E.Company = C.Company AND P.Status = false";
           DataBase.sta = DataBase.con.createStatement();
           DataBase.rSet = DataBase.sta.executeQuery(sql);
           //System.out.println("Table 6: fa");
@@ -50,10 +50,10 @@ public class Employee {
         try{
 
           DataBase.sta = DataBase.con.createStatement();
-          sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
-                    "FROM Position_Table P,Employer E,Company C,Employment_History H,marked m WHERE P.Employer_ID = E.Employer_ID,"+
-                    "P.Company = C.Company,P.Status = true, H.Employee_ID = "+employeeID+", H.Position_ID != P.Position_ID,"+
-                    "m.Employee_ID = "+"employeeID"+", m.Position_ID != P.Position_ID";
+          sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded "+
+                    "FROM Position_Table P,Employer E,Company C,Employment_History H, marked m WHERE P.Employer_ID = E.Employer_ID AND "+
+                    "E.Company = C.Company AND P.Status = false AND H.Employee_ID = '"+employeeID+"' AND H.Position_ID != P.Position_ID AND "+
+                    "m.Employee_ID = '"+employeeID+"' AND m.Position_ID != P.Position_ID";
           DataBase.rSet = DataBase.sta.executeQuery(sql);
 
           while (DataBase.rSet.next()){
@@ -64,9 +64,9 @@ public class Employee {
             int size = DataBase.rSet.getInt("Size");
             int founded = DataBase.rSet.getInt("Founded");
 
-            sql_marked = "INSERT INTO Registration (Position_ID,Employee_ID,Status)" +
-                     "VALUES (id, employeeID, true)";
-            DataBase.sta.executeUpdate(sql_marked);
+            //sql_marked = "INSERT INTO Registration (Position_ID,Employee_ID,Status)" +
+            //         "VALUES (id, employeeID, true)";
+            //DataBase.sta.executeUpdate(sql_marked);
             System.out.format("%s, %s, %s, %s, %s, %s\n", id, title, salary, company, size, founded);
           }
           DataBase.sta.close();
