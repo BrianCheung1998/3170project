@@ -15,17 +15,17 @@ public class Employer {
         int Suitable_Count = 0;
         //setup the sql query
         sql =
-                "SELECT E.Employee_ID, E.Skills, E.Expected_Salary, E.Experience "+
+                "SELECT DISTINCT E.Employee_ID, E.Skills, E.Expected_Salary, E.Experience "+
                 "FROM Employment_History EH, Employee E "+
                 "WHERE " +
                 // employee's expected salary is no larger than the upper-bound of the salary
                 // employee's experience no less than input experience
                 "E.Expected_Salary<=" + Salary +
                 " and E.Experience>=" + Experience +
-                " and (EH.Employee_ID = E.Employee_ID and (EH.End IS NOT NULL"+ // not working for any company currently
+                " and ((EH.Employee_ID = E.Employee_ID and EH.End IS NOT NULL)"+ // not working for any company currently
                 " or E.Employee_ID NOT IN("+
                     "SELECT EH2.Employee_ID "+
-                    "FROM Employment_History EH2)))";
+                    "FROM Employment_History EH2))";
 
 
 
