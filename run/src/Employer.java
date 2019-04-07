@@ -8,39 +8,40 @@ import java.text.*;
 public class Employer {
     String sql = null;
     ConnectToMySQL DataBase = new ConnectToMySQL();
+    ConnectToMySQL DataBase2 = new ConnectToMySQL();
 
     public int post_position_recruitment(String Employer_ID, String Position_Title, int Salary, int Experience){
-        int Temp_Position_ID = 0;
+        String Temp_Position_ID = "";
         int Suitable_Count = 0;
         //setup the sql query
         sql =
-                "SELECT E.Skills, E.Expected_Salary, E.Experience "+
+                "SELECT E.Employee_ID, E.Skills, E.Expected_Salary, E.Experience "+
                 "FROM Employment_History EH, Employee E "+
-                "WHERE (EH.Employee_ID = E.Employee_ID and EH.End IS NOT NULL)"+ // not working for any company currently
-                " or E.Employee_ID NOT IN("+
-                    "SELECT EH2.Employee_ID "+
-                    "FROM Employment_History EH2)"+
+                "WHERE " +
                 // employee's expected salary is no larger than the upper-bound of the salary
                 // employee's experience no less than input experience
-                " and E.Expected_Salary <= " + Salary +
-                " and E.Experience >= " + String.valueOf(Experience);
+                "E.Expected_Salary<=" + Salary +
+                " and E.Experience>=" + String.valueOf(Experience) +
+                " and ((EH.Employee_ID = E.Employee_ID and EH.End IS NOT NULL)"+ // not working for any company currently
+                " or E.Employee_ID NOT IN("+
+                    "SELECT EH2.Employee_ID "+
+                    "FROM Employment_History EH2))";
 
-        String Set_SQL =
-                "INSERT INTO Position_Table (Position_ID, Position_Title, Salary, Experience, Employer_ID, Status)" +
-                "VALUE (\'" + String.format("%010d", Temp_Position_ID) + "\', \'" + Position_Title +  "\', \'" + String.valueOf(Salary) +
-                "\', \'" + String.valueOf(Experience) +  "\', \'" + Employer_ID +  "\', " + "TRUE"+")";
+
 
         try{ //check if there is any suitable employee
             DataBase.sta = DataBase.con.createStatement();
             DataBase.rSet = DataBase.sta.executeQuery(sql);
 
             while(DataBase.rSet.next()){
+                String employee_id = DataBase.rSet.getString("employee_id");
                 String skills = DataBase.rSet.getString("skills");
                 int expected_salary = DataBase.rSet.getInt("expected_salary");
                 int experience = DataBase.rSet.getInt("experience");
                 String[] Skill_Set = skills.split(";");
                 int Skill_Set_Size = Skill_Set.length;
                 Boolean Have_Skill = Boolean.FALSE;
+                System.out.println(employee_id + skills + expected_salary + experience);
                 for(int i = 0; i < Skill_Set_Size; i++){
                     if(Skill_Set[i].equals(Position_Title)){
                         Have_Skill = Boolean.TRUE;
@@ -58,8 +59,29 @@ public class Employer {
             System.err.println(e.getMessage());
         }
         // if there is no record meet the requirement, return error
-        if(Suitable_Count == 0){
+        if(Suitable_Count > 0){
             try{
+                for(int x = 0; x < 999; x++){
+                    DataBase2.sta = DataBase2.con.createStatement();
+                    Temp_Position_ID = String.format("pid%03d", x);
+                    String Find_pid =
+                            "SELECT count(*) FROM Position_Table WHERE Position_ID=\'" + Temp_Position_ID + "\'";
+                    DataBase2.rSet = DataBase2.sta.executeQuery(Find_pid);
+                    DataBase2.rSet.next();
+                    int duplicated_ID_count = DataBase2.rSet.getInt(1);
+                    DataBase2.sta.close();
+                    if (duplicated_ID_count == 0){
+                        System.out.println("No duplicated position ID for" + Temp_Position_ID);
+                        break;
+                    }
+                    if(duplicated_ID_count > 0 && x == 999){
+                        return -1;
+                    }
+                }
+                String Set_SQL =
+                        "INSERT INTO Position_Table (Position_ID, Position_Title, Salary, Experience, Employer_ID, Status)" +
+                                "VALUE (\'" + Temp_Position_ID + "\', \'" + Position_Title +  "\', \'" + String.valueOf(Salary) +
+                                "\', \'" + String.valueOf(Experience) +  "\', \'" + Employer_ID +  "\', " + "TRUE"+")";
                 DataBase.sta = DataBase.con.createStatement();
                 DataBase.sta.executeUpdate(Set_SQL);
                 DataBase.sta.close();
@@ -71,11 +93,13 @@ public class Employer {
         }
         return Suitable_Count;
     }
-    public void find_position_posted(String Employer_ID){
+    public int find_position_posted(String Employer_ID){
+        int NumberOfPosition = 0;
+        System.out.println("Find position posted");
         sql =
-            "SELECT P.Position_ID"+
-            "From Position_Table P"+
-            "WHERE P.Employer_ID=" + Employer_ID;
+            "SELECT P.Position_ID "+
+            "From Position_Table P "+
+            "WHERE P.Employer_ID=\'" + Employer_ID + "\'";
 
         try{ // get the position posted by this employer
             DataBase.sta = DataBase.con.createStatement();
@@ -83,6 +107,7 @@ public class Employer {
 
             System.out.println("The id of position recruitment posted by you are:");
             while(DataBase.rSet.next()){
+                NumberOfPosition++;
                 String position_ID = DataBase.rSet.getString("position_ID");
                 System.out.println(position_ID);
             }
@@ -92,15 +117,18 @@ public class Employer {
             System.err.println("Error occur when getting data for Position Recruitment");
             System.err.println(e.getMessage());
         }
+        return NumberOfPosition;
     }
 
-    public void find_interest_employee(String Position_ID){
+    public int find_interest_employee(String Position_ID){
+        int NumberOfInterestEmployee = 0;
+        System.out.println("Find interest employee");
         //get who is interest in the position
         sql =
         "SELECT M.Employee_ID, E.Name, E.Expected_Salary, E.Experience, E.Skills "+
         "FROM marked M, Employee E "+
         "WHERE M.Employee_ID = E.Employee_ID and " +
-        "M.Position_ID=" + Position_ID;
+        "M.Position_ID=\'" + Position_ID + "\'";
 
         try{
             DataBase.sta = DataBase.con.createStatement();
@@ -109,6 +137,7 @@ public class Employer {
             System.out.println("Employee_ID, Name, Expected_Salary, Experience, Skills");
 
             while(DataBase.rSet.next()){
+                NumberOfInterestEmployee++;
                 String employee_ID = DataBase.rSet.getString("employee_ID");
                 String name = DataBase.rSet.getString("name");
                 int expected_salary = DataBase.rSet.getInt("salary");
@@ -123,11 +152,12 @@ public class Employer {
             System.err.println("Error occur when getting employees information");
             System.err.println(e.getMessage());
         }
-
+        return NumberOfInterestEmployee;
     }
 
     public void arrange_interview(String Employee_ID, String Position_ID){
 
+        System.out.println("arrange interview");
         sql =
             "UPDATE marked SET Status = TRUE" +
             " WHERE Position_ID=" + Position_ID +
