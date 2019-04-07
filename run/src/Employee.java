@@ -50,10 +50,10 @@ public class Employee {
         try{
 
           DataBase.sta = DataBase.con.createStatement();
-          sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
-                    "FROM Position_Table P,Employer E,Company C,Employment_History H,marked m WHERE P.Employer_ID = E.Employer_ID,"+
-                    "P.Company = C.Company,P.Status = true, H.Employee_ID = "+employeeID+", H.Position_ID != P.Position_ID,"+
-                    "m.Employee_ID = "+"employeeID"+", m.Position_ID != P.Position_ID";
+          sql = "SELECT P.Position_ID, P.Position_Title, P.Salary, C.Company, C.Size, C.Founded "+
+                    "FROM Position_Table P, Employer E, Company C, Employment_History H, marked m WHERE P.Employer_ID = E.Employer_ID and "+
+                    "E.Company = C.Company and P.Status = TRUE and H.Employee_ID = \'"+employeeID+"\' and H.Position_ID != P.Position_ID and "+
+                    "m.Employee_ID = \'"+employeeID+"\' and m.Position_ID != P.Position_ID";
           DataBase.rSet = DataBase.sta.executeQuery(sql);
 
           while (DataBase.rSet.next()){
