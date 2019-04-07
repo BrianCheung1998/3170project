@@ -235,7 +235,7 @@ public class UI{
 
                     employee_do.show_available_positions(Employee_ID);
 
-                    swap_to(S_admin);
+                    swap_to(S_employee);
                 break;
 
                 case S_employee_markInterestPosition:
@@ -339,11 +339,9 @@ public class UI{
                 case S_employer_acceptEmployee:
                     System.out.println("Please enter your ID.");
                     Employer_ID = kb.nextLine();
-                    kb.nextLine();
 
                     System.out.println("Please enter the Employee_ID you want to hire.");
                     Employee_ID = kb.nextLine();
-                    kb.nextLine();
 
                     employer_do.accept_an_employee(Employer_ID, Employee_ID);
 

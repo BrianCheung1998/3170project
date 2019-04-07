@@ -16,9 +16,9 @@ public class Employee {
         Position_Title, Salary, and the detail of the company including Company, Size, Founded.
         */
         try{
-          sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded"+
-                  "FROM Position_Table P,Employer E,Company C WHERE P.Employer_ID = E.Employer_ID,"+
-                  "P.Company = C.Company, P.Status = true";
+          sql = "SELECT P.Position_ID, P.Position_Title, P.Salary, C.Company, C.Size, C.Founded "+
+                  "FROM Position_Table P, Employer E, Company C WHERE P.Employer_ID = E.Employer_ID and "+
+                  "E.Company = C.Company and P.Status = TRUE";
           DataBase.sta = DataBase.con.createStatement();
           DataBase.rSet = DataBase.sta.executeQuery(sql);
           //System.out.println("Table 6: fa");
