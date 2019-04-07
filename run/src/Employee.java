@@ -16,9 +16,10 @@ public class Employee {
         Position_Title, Salary, and the detail of the company including Company, Size, Founded.
         */
         try{
-          sql = "SELECT P.Position_ID, P.Position_Title, P.Salary, C.Company, C.Size, C.Founded"+
+          sql = "SELECT P.Position_ID, P.Position_Title, P.Salary, C.Company, C.Size, C.Founded "+
                   "FROM Position_Table P, Employer E, Employee E2, Company C WHERE P.Employer_ID = E.Employer_ID and "+
-                  "E.Company = C.Company and P.Status = TRUE and P.Salary >= E2.Expected_Salary and P.Experience <= E2.Experience and E2.Employee_ID =\'" + employeeID + "\'";
+                  "E.Company = C.Company and P.Status = true AND P.Salary >= E2.Expected_Salary AND "+
+                  "P.Experience <= E2.Experience and E2.Employee_ID =\'" + employeeID + "\'";
           DataBase.sta = DataBase.con.createStatement();
           DataBase.rSet = DataBase.sta.executeQuery(sql);
           //System.out.println("Table 6: fa");
@@ -52,8 +53,10 @@ public class Employee {
           DataBase.sta = DataBase.con.createStatement();
 
           sql = "SELECT P.Position_ID, P.Position_Title, P.Salary, C.Company, C.Size, C.Founded "+
-                    "FROM Position_Table P, Employer E, Company C "+
-                    "where P.Employer_ID = E.Employer_ID and E.Company = C.Company and P.Status = TRUE and "+
+                    "FROM Position_Table P, Employer E, Employee E2, Company C "+
+                    "where P.Employer_ID = E.Employer_ID and E.Company = C.Company and "+
+                    "P.Status = true and P.Salary >= E2.Expected_Salary and P.Experience <= E2.Experience and "+
+                    "E2.Employee_ID =\'" + employeeID + "\' and "+
     "E.Company NOT IN( select EH.Company "+
     "from Employment_History EH, Position_Table P "+
     "where P.Position_ID = EH.Position_ID and EH.Employee_ID = \'"+employeeID+"\')" +
