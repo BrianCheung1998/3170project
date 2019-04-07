@@ -27,8 +27,6 @@ public class Employer {
                     "SELECT EH2.Employee_ID "+
                     "FROM Employment_History EH2))";
 
-
-
         try{ //check if there is any suitable employee
             DataBase.sta = DataBase.con.createStatement();
             DataBase.rSet = DataBase.sta.executeQuery(sql);
@@ -41,7 +39,6 @@ public class Employer {
                 String[] Skill_Set = skills.split(";");
                 int Skill_Set_Size = Skill_Set.length;
                 Boolean Have_Skill = Boolean.FALSE;
-                System.out.println(employee_id + skills + expected_salary + experience);
                 for(int i = 0; i < Skill_Set_Size; i++){
                     if(Skill_Set[i].equals(Position_Title)){
                         Have_Skill = Boolean.TRUE;
@@ -179,11 +176,11 @@ public class Employer {
         String company;
         try{// check if the position is marked by the employee and posted by the employer
             sql=
-                "SELECT M.Position_ID, E.Company" +
-                "FROM marked M, Position_Table P, Employer E" +
+                "SELECT M.Position_ID, E.Company " +
+                "FROM marked M, Position_Table P, Employer E " +
                 "WHERE E.Employer_ID = P.Employer_ID and P.Status=TRUE and M.Status=TRUE and " +
-                "M.Position_ID = P.Position_ID and M.Employee_ID="
-                + Employee_ID + " and P.Employer_ID=" + Employer_ID;
+                "M.Position_ID = P.Position_ID and M.Employee_ID=\'"
+                + Employee_ID + "\' and P.Employer_ID=\'" + Employer_ID + "\'";
 
             DataBase.sta = DataBase.con.createStatement();
             DataBase.rSet = DataBase.sta.executeQuery(sql);
@@ -200,7 +197,7 @@ public class Employer {
                 DataBase.sta.executeUpdate(sql);
             }
             else{
-                System.out.println("The position is not available or no record match");
+                System.out.println("The position is not available or no record match.");
             }
             DataBase.sta.close();
         }
