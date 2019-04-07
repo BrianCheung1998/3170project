@@ -21,11 +21,11 @@ public class Employer {
                 // employee's expected salary is no larger than the upper-bound of the salary
                 // employee's experience no less than input experience
                 "E.Expected_Salary<=" + Salary +
-                " and E.Experience>=" + String.valueOf(Experience) +
-                " and ((EH.Employee_ID = E.Employee_ID and EH.End IS NOT NULL)"+ // not working for any company currently
+                " and E.Experience>=" + Experience +
+                " and (EH.Employee_ID = E.Employee_ID and (EH.End IS NOT NULL"+ // not working for any company currently
                 " or E.Employee_ID NOT IN("+
                     "SELECT EH2.Employee_ID "+
-                    "FROM Employment_History EH2))";
+                    "FROM Employment_History EH2)))";
 
 
 
