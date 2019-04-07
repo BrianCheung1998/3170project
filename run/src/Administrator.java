@@ -57,6 +57,7 @@ public class Administrator{
         // TABLE 5: Employment History – history.csv
         sql_employmentHistory = "CREATE TABLE IF NOT EXISTS Employment_History("+
         "Employee_ID char(6) NOT NULL,"+
+        "Company char(30) NOT NULL," +
         "Position_ID char(6) NOT NULL,"+
         "Start date NOT NULL,"+
         "End date,"+
@@ -107,7 +108,7 @@ public class Administrator{
             DataBase.sta.executeUpdate(sql_employer);
             DataBase.sta.executeUpdate(sql_company);
             DataBase.sta.executeUpdate(sql_employee);
-          
+
         }catch(SQLException e){
             System.out.println("Error in Delete Table!");
             System.out.print("[Error]:");
@@ -199,7 +200,7 @@ public class Administrator{
           DataBase.rSet = DataBase.sta.executeQuery(sql_company);
           while (DataBase.rSet.next()){
             int count1 = DataBase.rSet.getInt("total");
-            System.out.format("Company 2: %s\n",count1);
+            System.out.format("Company: %s\n",count1);
           }
 
           DataBase.rSet = DataBase.sta.executeQuery(sql_employer);

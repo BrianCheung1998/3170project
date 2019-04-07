@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-//import java.sql.*;
 import java.text.*;
 
 public class Employee {
@@ -8,7 +7,8 @@ public class Employee {
     String sql_marked = null;
     ConnectToMySQL DataBase = new ConnectToMySQL();
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    Scanner reader;
+    Scanner kb = new Scanner(System.in);;
+
     public void show_available_positions(String employeeID){
         /*
         TO DO: After the employee enteDataBase.rSet his/her Employee_ID, the system shall return all available records.
@@ -16,15 +16,9 @@ public class Employee {
         Position_Title, Salary, and the detail of the company including Company, Size, Founded.
         */
         try{
-<<<<<<< HEAD
-          sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded "+
-                  "FROM Position_Table P,Employer E,Company C WHERE P.Employer_ID = E.Employer_ID AND "+
-                  "E.Company = C.Company AND P.Status = false";
-=======
           sql = "SELECT P.Position_ID, P.Position_Title, P.Salary, C.Company, C.Size, C.Founded "+
                   "FROM Position_Table P, Employer E, Company C WHERE P.Employer_ID = E.Employer_ID and "+
                   "E.Company = C.Company and P.Status = TRUE";
->>>>>>> 26596084f0957dea5bd44ec8eabd2077aa721e3c
           DataBase.sta = DataBase.con.createStatement();
           DataBase.rSet = DataBase.sta.executeQuery(sql);
           //System.out.println("Table 6: fa");
@@ -56,31 +50,47 @@ public class Employee {
         try{
 
           DataBase.sta = DataBase.con.createStatement();
-<<<<<<< HEAD
-          sql = "SELECT P.Position_ID,P.Position_Title,P.Salary,C.Company,C.Size,C.Founded "+
-                    "FROM Position_Table P,Employer E,Company C,Employment_History H, marked m WHERE P.Employer_ID = E.Employer_ID AND "+
-                    "E.Company = C.Company AND P.Status = false AND H.Employee_ID = '"+employeeID+"' AND H.Position_ID != P.Position_ID AND "+
-                    "m.Employee_ID = '"+employeeID+"' AND m.Position_ID != P.Position_ID";
-=======
+
           sql = "SELECT P.Position_ID, P.Position_Title, P.Salary, C.Company, C.Size, C.Founded "+
-                    "FROM Position_Table P, Employer E, Company C, Employment_History H, marked m WHERE P.Employer_ID = E.Employer_ID and "+
-                    "E.Company = C.Company and P.Status = TRUE and H.Employee_ID = \'"+employeeID+"\' and H.Position_ID != P.Position_ID and "+
-                    "m.Employee_ID = \'"+employeeID+"\' and m.Position_ID != P.Position_ID";
->>>>>>> 26596084f0957dea5bd44ec8eabd2077aa721e3c
+                    "FROM Position_Table P, Employer E, Company C "+
+                    "where P.Employer_ID = E.Employer_ID and E.Company = C.Company and P.Status = TRUE and "+
+    "E.Company NOT IN( select EH.Company "+
+    "from Employment_History EH, Position_Table P "+
+    "where P.Position_ID = EH.Position_ID and EH.Employee_ID = \'"+employeeID+"\')" +
+    "and P.Position_ID NOT IN (select m.Position_ID from marked m where m.Employee_ID = \'"+employeeID+"\')" ;
+
+                    String[] id = new String[10000];
+                    String[] title = new String[10000];
+                    String[] salary = new String[10000];
+                    String[] company = new String[10000];
+                    String[] size = new String[10000];
+                    String[] founded = new String[10000];
+                    int i = 0;
           DataBase.rSet = DataBase.sta.executeQuery(sql);
 
           while (DataBase.rSet.next()){
-            String id = DataBase.rSet.getString("Position_ID");
-            String title = DataBase.rSet.getString("Position_Title");
-            int salary = DataBase.rSet.getInt("Salary");
-            String company = DataBase.rSet.getString("Company");
-            int size = DataBase.rSet.getInt("Size");
-            int founded = DataBase.rSet.getInt("Founded");
+            id[i] = DataBase.rSet.getString("Position_ID");
+            title[i] = DataBase.rSet.getString("Position_Title");
+            salary[i] = DataBase.rSet.getString("Salary");
+            company[i] = DataBase.rSet.getString("Company");
+            size[i] = DataBase.rSet.getString("Size");
+            founded[i] = DataBase.rSet.getString("Founded");
 
-            //sql_marked = "INSERT INTO Registration (Position_ID,Employee_ID,Status)" +
-            //         "VALUES (id, employeeID, true)";
-            //DataBase.sta.executeUpdate(sql_marked);
-            System.out.format("%s, %s, %s, %s, %s, %s\n", id, title, salary, company, size, founded);
+            System.out.format("%s, %s, %s, %s, %s, %s\n", id[i], title[i], salary[i], company[i], size[i], founded[i]);
+            i = i + 1;
+          }
+          System.out.println("Please enter your interest position are:");
+          String Interested_ID = kb.nextLine();
+          System.out.println(Interested_ID);
+          for(int j = 0; j < id.length; j++){
+              if(id[j].equals(Interested_ID))
+              {
+                  sql_marked = "INSERT INTO marked (Position_ID,Employee_ID,Status)" +
+                           "VALUES ('"+id[j]+"', '"+employeeID+"' , true)";
+                  DataBase.sta.executeUpdate(sql_marked);
+                  System.out.format("You have successfully marked %s with your %s.\n", id[j], employeeID);
+                  break;
+              }
           }
           DataBase.sta.close();
        }
@@ -98,6 +108,7 @@ public class Employee {
         */
         sql = "select * from ( select * from Employment_History "+
               "where Employee_ID = '"+employeeID+"' order by End DESC LIMIT 3  ) t order by End ASC";
+
         String sql_employmentHistory = "SELECT COUNT(*) AS total FROM Employment_History where Employee_ID = '"+employeeID+"'";
         int count1 = 0;
         long temp = 0;
