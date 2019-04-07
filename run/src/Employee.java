@@ -57,10 +57,10 @@ public class Employee {
                     "where P.Employer_ID = E.Employer_ID and E.Company = C.Company and "+
                     "P.Status = true and P.Salary >= E2.Expected_Salary and P.Experience <= E2.Experience and "+
                     "E2.Employee_ID =\'" + employeeID + "\' and "+
-    "E.Company NOT IN( select EH.Company "+
-    "from Employment_History EH, Position_Table P "+
-    "where P.Position_ID = EH.Position_ID and EH.Employee_ID = \'"+employeeID+"\')" +
-    "and P.Position_ID NOT IN (select m.Position_ID from marked m where m.Employee_ID = \'"+employeeID+"\')" ;
+                        "E.Company NOT IN( select EH.Company "+
+                        "from Employment_History EH, Position_Table P "+
+                        "where P.Position_ID = EH.Position_ID and EH.Employee_ID = \'"+employeeID+"\')" +
+                        "and P.Position_ID NOT IN (select m.Position_ID from marked m where m.Employee_ID = \'"+employeeID+"\')" ;
 
                     String[] id = new String[10000];
                     String[] title = new String[10000];
@@ -82,20 +82,22 @@ public class Employee {
             System.out.format("%s, %s, %s, %s, %s, %s\n", id[i], title[i], salary[i], company[i], size[i], founded[i]);
             i = i + 1;
           }
+          DataBase.sta.close();
           System.out.println("Please enter your interest position are:");
           String Interested_ID = kb.nextLine();
           System.out.println(Interested_ID);
           for(int j = 0; j < id.length; j++){
               if(id[j].equals(Interested_ID))
               {
-                  sql_marked = "INSERT INTO marked (Position_ID,Employee_ID,Status)" +
-                           "VALUES ('"+id[j]+"', '"+employeeID+"' , true)";
+                  sql_marked = "INSERT INTO marked (Position_ID,Employee_ID,Status) " +
+                           "VALUES ('"+id[j]+"', '"+employeeID+"' , FALSE)";
+                  DataBase.sta = DataBase.con.createStatement();
                   DataBase.sta.executeUpdate(sql_marked);
+                  DataBase.sta.close();
                   System.out.format("You have successfully marked %s with your %s.\n", id[j], employeeID);
                   break;
               }
           }
-          DataBase.sta.close();
        }
        catch(Exception e){
          System.err.println("Got an exception! ");
@@ -143,16 +145,6 @@ public class Employee {
              System.err.println("Got an exception! ");
              System.err.println(e.getMessage());
            }
-
-
-
-
-
-
-
-
-
-
 
         return 0;
     }

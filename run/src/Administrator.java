@@ -164,6 +164,10 @@ public class Administrator{
         "into table Employment_History "+
         "fields terminated by ',' enclosed by '\"' lines terminated by '\\n'";
 
+        /*sql_marked = "load data local infile '"+folderPath+"/marked.csv' "+
+                "into table Employment_History "+
+                "fields terminated by ',' enclosed by '\"' lines terminated by '\\n'";
+        */
 
         try{
             DataBase.sta = DataBase.con.createStatement();
@@ -172,7 +176,7 @@ public class Administrator{
             DataBase.sta.executeUpdate(sql_employer);
             DataBase.sta.executeUpdate(sql_position);
             DataBase.sta.executeUpdate(sql_employmentHistory);
-          //  DataBase.sta.executeUpdate(sql_marked);
+            //DataBase.sta.executeUpdate(sql_marked);
         }catch(SQLException e){
             System.out.println("Error in Load Table!");
             System.out.print("[Error]:");
