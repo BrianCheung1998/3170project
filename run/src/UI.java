@@ -43,6 +43,18 @@ public class UI{
         currentState = s;
     }
 
+    public static boolean isInteger(String input) {
+        try
+        {
+            Integer.parseInt(input);
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
     public void run(){
         while(true){
             switch(currentState){
@@ -55,8 +67,11 @@ public class UI{
                     do {
                         System.out.println ("Please enter [1-4].");
                         try {
-                            int selection = kb.nextInt();
-                            kb.nextLine();
+                            String input = kb.nextLine();
+                            if(!isInteger(input)){
+                                throw new Exception();
+                            }
+                            int selection = Integer.parseInt(input);
                             if (selection == 1){    //An administrator
                                 swap_to(S_admin);
                                 break;
@@ -90,8 +105,11 @@ public class UI{
                     do {
                         System.out.println ("Please enter [1-5].");
                         try {
-                            int selection = kb.nextInt();
-                            kb.nextLine();
+                            String input = kb.nextLine();
+                            if(!isInteger(input)){
+                                throw new Exception();
+                            }
+                            int selection = Integer.parseInt(input);
                             if (selection == 1){    //Create tables ---wrote
                                 swap_to(S_admin_createTable);
                                 break;
@@ -130,8 +148,11 @@ public class UI{
 
                         System.out.println ("Please enter [1-4].");
                         try {
-                            int selection = kb.nextInt();
-                            kb.nextLine();
+                            String input = kb.nextLine();
+                            if(!isInteger(input)){
+                                throw new Exception();
+                            }
+                            int selection = Integer.parseInt(input);
                             if (selection == 1){    //Show Available Positions
                                 swap_to(S_employee_showAvailblePosition);
                                 break;
@@ -165,8 +186,11 @@ public class UI{
                     do {
                         System.out.println ("Please enter [1-4].");
                         try {
-                            int selection = kb.nextInt();
-                            kb.nextLine();
+                            String input = kb.nextLine();
+                            if(!isInteger(input)){
+                                throw new Exception();
+                            }
+                            int selection = Integer.parseInt(input);
                             if (selection == 1){    //Post Position Recruitment
                                 swap_to(S_employer_postRecruitment);
                                 break;
