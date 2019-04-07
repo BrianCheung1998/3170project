@@ -43,7 +43,7 @@ public class Employee {
             // check is it in skill set
               for(int foo = 0; foo < Skill_Set_Size; foo++){
                   if(Skill_Set[foo].equals(title)){
-                      System.out.format("%s, %s, %s, %s, %s, %s\n", id, title, salary, company, size, founded);
+                      System.out.format("%-12s %-15s %-7s %-8s %-5s %s\n", id, title, salary, company, size, founded);
                       break;
                   }
               }
@@ -106,7 +106,7 @@ public class Employee {
             // check is it in skill set
             for(int foo = 0; foo < Skill_Set_Size; foo++){
                 if(Skill_Set[foo].equals(title[i])){
-                    System.out.format("%s, %s, %s, %s, %s, %s\n", id[i], title[i], salary[i], company[i], size[i], founded[i]);
+                    System.out.format("%-12s %-15s %-7s %-8s %-5s %s\n", id[i], title[i], salary[i], company[i], size[i], founded[i]);
                     break;
                 }
             }
@@ -115,7 +115,6 @@ public class Employee {
           DataBase.sta.close();
           System.out.println("Please enter your interest position are:");
           String Interested_ID = kb.nextLine();
-          System.out.println(Interested_ID);
           for(int j = 0; j < id.length; j++){
               if(id[j].equals(Interested_ID))
               {

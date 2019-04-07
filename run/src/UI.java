@@ -255,7 +255,7 @@ public class UI{
                     System.out.println("Please enter your ID.");
                     String Employee_ID = kb.nextLine();
                     System.out.println("Your available positions are:");
-                    System.out.println("Position_ID Position_Title, Salary, Company, Size, Founded");
+                    System.out.println("Position_ID  Position_Title  Salary  Company  Size  Founded");
 
                     employee_do.show_available_positions(Employee_ID);
 
@@ -272,7 +272,7 @@ public class UI{
                     System.out.println("Please enter your ID.");
                     Employee_ID = kb.nextLine();
                     System.out.println("Your interest position are:");
-                    System.out.println("Position_ID Position_Title, Salary, Company, Size, Founded");
+                    System.out.println("Position_ID  Position_Title  Salary  Company  Size  Founded");
                     employee_do.mark_interested_position(Employee_ID);
 
                     swap_to(S_employee);
@@ -285,7 +285,7 @@ public class UI{
                     if (__time__ > 0){
                       System.out.printf("Your average working time is: %d days\n",__time__);
                     }
-                    else {System.out.printf("Less than 3 records\n");}  
+                    else {System.out.printf("Less than 3 records\n");}
 
                     swap_to(S_employee);
                 break;
