@@ -353,8 +353,6 @@ public class UI{
                             System.out.println("Please pick one employee by Employee_ID.");
                             Employee_ID = kb.nextLine();
                             employer_do.arrange_interview(Employee_ID, Position_ID);
-
-                            System.out.println("An IMMEDIATE interview has done.");
                         }
                     }
                     swap_to(S_employer);

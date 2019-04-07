@@ -68,7 +68,6 @@ public class Employer {
                     int duplicated_ID_count = DataBase2.rSet.getInt(1);
                     DataBase2.sta.close();
                     if (duplicated_ID_count == 0){
-                        System.out.println("No duplicated position ID for" + Temp_Position_ID);
                         break;
                     }
                     if(duplicated_ID_count > 0 && x == 999){
@@ -92,7 +91,6 @@ public class Employer {
     }
     public int find_position_posted(String Employer_ID){
         int NumberOfPosition = 0;
-        System.out.println("Find position posted");
         sql =
             "SELECT P.Position_ID "+
             "From Position_Table P "+
@@ -119,7 +117,6 @@ public class Employer {
 
     public int find_interest_employee(String Position_ID){
         int NumberOfInterestEmployee = 0;
-        System.out.println("Find interest employee");
         //get who is interest in the position
         sql =
         "SELECT M.Employee_ID, E.Name, E.Expected_Salary, E.Experience, E.Skills "+
@@ -137,7 +134,7 @@ public class Employer {
                 NumberOfInterestEmployee++;
                 String employee_ID = DataBase.rSet.getString("employee_ID");
                 String name = DataBase.rSet.getString("name");
-                int expected_salary = DataBase.rSet.getInt("salary");
+                int expected_salary = DataBase.rSet.getInt("expected_salary");
                 int experience = DataBase.rSet.getInt("experience");
                 String skills = DataBase.rSet.getString("skills");
                 //print the employee information
@@ -153,12 +150,10 @@ public class Employer {
     }
 
     public void arrange_interview(String Employee_ID, String Position_ID){
-
-        System.out.println("arrange interview");
         sql =
             "UPDATE marked SET Status = TRUE" +
-            " WHERE Position_ID=" + Position_ID +
-            " Employee_ID=" + Employee_ID;
+            " WHERE Position_ID=\'" + Position_ID + "\'" +
+            " and Employee_ID=\'" + Employee_ID + "\'";
         try{//arrange an immediate interview
             DataBase.sta = DataBase.con.createStatement();
             DataBase.sta.executeUpdate(sql);
@@ -191,8 +186,14 @@ public class Employer {
                 System.out.println("An Employment History record is created, details are:");
                 System.out.println("Employee_ID, Company, Position_ID, Start, End");
                 System.out.println(Employee_ID + ", " + company + ", " + position_id + ", " + "2019-01-01" + ", " + "NULL");
+                // add work history record
                 sql ="INSERT INTO Employment_History Value(\'" + Employee_ID + "\', \'" + company + "\', \'" + position_id + "\', \'" + "2019-01-01" + "\', " + "NULL)";
                 DataBase.sta.close();
+                DataBase.sta = DataBase.con.createStatement();
+                DataBase.sta.executeUpdate(sql);
+                DataBase.sta.close();
+                // change the position to be not available
+                sql ="UPDATE Position_Table SET Status=FALSE WHERE Position_ID=\'" + position_id + "\'";
                 DataBase.sta = DataBase.con.createStatement();
                 DataBase.sta.executeUpdate(sql);
             }
@@ -202,7 +203,7 @@ public class Employer {
             DataBase.sta.close();
         }
         catch(Exception e){
-            System.err.println("Error occur when getting interview record or posting posting new job history");
+            System.err.println("Error occur when getting interview record or modifying job history or modifying position table");
             System.err.println(e.getMessage());
         }
         // if suitable, create employment history record
