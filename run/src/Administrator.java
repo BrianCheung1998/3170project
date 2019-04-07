@@ -200,7 +200,7 @@ public class Administrator{
           DataBase.rSet = DataBase.sta.executeQuery(sql_company);
           while (DataBase.rSet.next()){
             int count1 = DataBase.rSet.getInt("total");
-            System.out.format("Company 2: %s\n",count1);
+            System.out.format("Company: %s\n",count1);
           }
 
           DataBase.rSet = DataBase.sta.executeQuery(sql_employer);
