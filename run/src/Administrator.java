@@ -57,6 +57,7 @@ public class Administrator{
         // TABLE 5: Employment History – history.csv
         sql_employmentHistory = "CREATE TABLE IF NOT EXISTS Employment_History("+
         "Employee_ID char(6) NOT NULL,"+
+        "Company char(30) NOT NULL,"+
         "Position_ID char(6) NOT NULL,"+
         "Start date NOT NULL,"+
         "End date,"+
