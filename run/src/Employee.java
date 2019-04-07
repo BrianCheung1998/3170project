@@ -16,6 +16,16 @@ public class Employee {
         Position_Title, Salary, and the detail of the company including Company, Size, Founded.
         */
         try{
+            // get the skill set of the employee
+            sql = "SELECT E.Skills FROM Employee E WHERE E.Employee_ID=\'" + employeeID + "\'";
+            DataBase.sta = DataBase.con.createStatement();
+            DataBase.rSet = DataBase.sta.executeQuery(sql);
+            DataBase.rSet.next();
+            String skills = DataBase.rSet.getString("skills");
+            String[] Skill_Set = skills.split(";");
+            int Skill_Set_Size = Skill_Set.length;
+            DataBase.sta.close();
+
           sql = "SELECT P.Position_ID, P.Position_Title, P.Salary, C.Company, C.Size, C.Founded "+
                   "FROM Position_Table P, Employer E, Employee E2, Company C WHERE P.Employer_ID = E.Employer_ID and "+
                   "E.Company = C.Company and P.Status = true AND P.Salary >= E2.Expected_Salary AND "+
@@ -30,8 +40,14 @@ public class Employee {
             String company = DataBase.rSet.getString("Company");
             int size = DataBase.rSet.getInt("Size");
             int founded = DataBase.rSet.getInt("Founded");
+            // check is it in skill set
+              for(int foo = 0; foo < Skill_Set_Size; foo++){
+                  if(Skill_Set[foo].equals(title)){
+                      System.out.format("%s, %s, %s, %s, %s, %s\n", id, title, salary, company, size, founded);
+                      break;
+                  }
+              }
 
-            System.out.format("%s, %s, %s, %s, %s, %s\n", id, title, salary, company, size, founded);
           }
 
           DataBase.sta.close();
@@ -49,6 +65,15 @@ public class Employee {
         then prompt the employee to mark one position as interested, and save this information.
         */
         try{
+            // get the skill set of the employee
+            sql = "SELECT E.Skills FROM Employee E WHERE E.Employee_ID=\'" + employeeID + "\'";
+            DataBase.sta = DataBase.con.createStatement();
+            DataBase.rSet = DataBase.sta.executeQuery(sql);
+            DataBase.rSet.next();
+            String skills = DataBase.rSet.getString("skills");
+            String[] Skill_Set = skills.split(";");
+            int Skill_Set_Size = Skill_Set.length;
+            DataBase.sta.close();
 
           DataBase.sta = DataBase.con.createStatement();
 
@@ -78,8 +103,13 @@ public class Employee {
             company[i] = DataBase.rSet.getString("Company");
             size[i] = DataBase.rSet.getString("Size");
             founded[i] = DataBase.rSet.getString("Founded");
-
-            System.out.format("%s, %s, %s, %s, %s, %s\n", id[i], title[i], salary[i], company[i], size[i], founded[i]);
+            // check is it in skill set
+            for(int foo = 0; foo < Skill_Set_Size; foo++){
+                if(Skill_Set[foo].equals(title[i])){
+                    System.out.format("%s, %s, %s, %s, %s, %s\n", id[i], title[i], salary[i], company[i], size[i], founded[i]);
+                    break;
+                }
+            }
             i = i + 1;
           }
           DataBase.sta.close();
