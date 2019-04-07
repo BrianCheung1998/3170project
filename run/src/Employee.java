@@ -84,7 +84,7 @@ public class Employee {
         and return the average working time
         */
         sql = "select * from ( select * from Employment_History "+
-              "where Employee_ID = '"+employeeID+"' order by End DESC LIMIT 3  ) t order by End ASC";
+              "where Employee_ID = \'"+employeeID+"\' order by End DESC LIMIT 3  ) t order by End ASC";
         String sql_employmentHistory = "SELECT COUNT(*) AS total FROM Employment_History where Employee_ID = '"+employeeID+"'";
         int count1 = 0;
         long temp = 0;
