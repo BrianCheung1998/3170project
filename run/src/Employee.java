@@ -16,9 +16,9 @@ public class Employee {
         Position_Title, Salary, and the detail of the company including Company, Size, Founded.
         */
         try{
-          sql = "SELECT P.Position_ID, P.Position_Title, P.Salary, C.Company, C.Size, C.Founded "+
-                  "FROM Position_Table P, Employer E, Company C WHERE P.Employer_ID = E.Employer_ID and "+
-                  "E.Company = C.Company and P.Status = TRUE";
+          sql = "SELECT P.Position_ID, P.Position_Title, P.Salary, C.Company, C.Size, C.Founded , P.Experience "+
+                  "FROM Position_Table P, Employer E, Employee E2, Company C WHERE P.Employer_ID = E.Employer_ID and "+
+                  "E.Company = C.Company and P.Status = TRUE and P.Salary >= E2.Expected_Salary and P.Experience <= E2.Experience and E2.Employee_ID =\'" + employeeID + "\'";
           DataBase.sta = DataBase.con.createStatement();
           DataBase.rSet = DataBase.sta.executeQuery(sql);
           //System.out.println("Table 6: fa");
@@ -29,8 +29,9 @@ public class Employee {
             String company = DataBase.rSet.getString("Company");
             int size = DataBase.rSet.getInt("Size");
             int founded = DataBase.rSet.getInt("Founded");
+            int experience = DataBase.rSet.getInt("Experience");
 
-            System.out.format("%s, %s, %s, %s, %s, %s\n", id, title, salary, company, size, founded);
+            System.out.format("%s, %s, %s, %s, %s, %s %s\n", id, title, salary, company, size, founded, experience);
           }
 
           DataBase.sta.close();
